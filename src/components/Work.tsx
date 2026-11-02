@@ -11,7 +11,7 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [hoveredProjectId, setHoveredProjectId] = useState<string | null>(null);
 
-  const filters = ['All', 'Commercial', 'Short Film', 'Music Video', 'VFX'];
+  const filters = ['All', 'Frontend', 'AI / ML', 'Full Stack'];
 
   const filteredProjects = activeFilter === 'All'
     ? projects
@@ -38,7 +38,7 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
               WORK THAT SPEAKS<span className="text-[#E11D2E]">.</span>
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base max-w-lg mt-3 font-normal">
-              A curated selection of commercials, narrative films, high-energy music videos, and complex visual effects sequences.
+              A curated selection of modern frontend web applications, machine learning systems, interactive UI experiments, and algorithmic tools.
             </p>
           </div>
 

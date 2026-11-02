@@ -28,7 +28,7 @@ export const Awards: React.FC = () => {
                 <span className="text-[#E11D2E]">THE RECOGNITION.</span>
               </h2>
               <p className="text-zinc-400 text-sm sm:text-base leading-relaxed mb-10 max-w-md font-normal">
-                Film festival trophies, jury honors, and editorial accolades accumulated across a decade of cutting narrative and commercial projects.
+                Academic milestones, hackathon honors, and technical accolades earned across years of intensive coding and computer applications study.
               </p>
             </div>
 

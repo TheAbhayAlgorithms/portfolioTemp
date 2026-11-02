@@ -60,16 +60,16 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
     const showreelProject: ProjectItem = {
       id: 'showreel-featured',
       number: '00',
-      title: 'Cinematic Director Showreel',
-      category: 'Commercial',
+      title: 'Interactive Frontend & AI Showcase',
+      category: 'Frontend',
       year: '2025',
-      client: 'Alex Mercer Master Reel',
-      duration: '02:24',
-      description: 'The complete master edit: 10 years of visual storytelling, high-speed camera cuts, and photorealistic CGI compositing in 4K DCI.',
+      client: 'Abhay Raj Singh Showcase',
+      duration: 'Live Demo',
+      description: 'Featured interactive experience demonstrating responsive React architecture, intelligent ML integrations, and fluid 60fps animations.',
       thumbnailUrl: '/assets/before-after/cyberpunk-final.jpg',
       videoType: 'youtube',
       videoEmbedUrl: personal.showreelVideoUrl,
-      tools: ['Premiere Pro', 'DaVinci Resolve', 'After Effects', 'Nuke']
+      tools: ['React', 'TypeScript', 'Next.js', 'Python', 'Tailwind CSS']
     };
     onOpenShowreel(showreelProject);
   };
@@ -235,7 +235,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                       TRANSMISSION RECEIVED
                     </h4>
                     <p className="text-zinc-400 text-sm max-w-sm font-normal">
-                      Thank you for reaching out. Your project brief has landed on Alex's desk. Expect a response within 24 hours.
+                      Thank you for reaching out. Your message has landed with Abhay. Expect a response within 24 hours.
                     </p>
                     <button
                       type="button"

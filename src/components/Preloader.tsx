@@ -9,8 +9,8 @@ interface PreloaderProps {
 
 export const Preloader: React.FC<PreloaderProps> = ({
   onComplete,
-  name = "ALEX MERCER",
-  role = "VIDEO EDITOR & VFX ARTIST"
+  name = "ABHAY RAJ SINGH",
+  role = "MCA • FRONTEND DEVELOPER • AI / ML"
 }) => {
   const [progress, setProgress] = useState(0);
   const [isFinished, setIsFinished] = useState(false);

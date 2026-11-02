@@ -150,7 +150,7 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
                 HIRE ME NOW →
               </a>
               <div className="flex items-center justify-between text-zinc-500 font-mono text-[11px]">
-                <span>Alex Mercer Portfolio</span>
+                <span>Abhay Raj Singh Portfolio</span>
                 <span className="text-[#E11D2E]">Available for Work</span>
               </div>
             </div>

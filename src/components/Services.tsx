@@ -1,15 +1,17 @@
 import React from 'react';
-import { Film, Sparkles, Palette, Layers, ArrowUpRight } from 'lucide-react';
+import { Film, Sparkles, Palette, Layers, ArrowUpRight, Code2, Brain } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
 
 export const Services: React.FC = () => {
   const { services } = portfolioContent;
 
   const iconMap: { [key: string]: React.ReactNode } = {
-    Film: <Film className="w-8 h-8 text-[#E11D2E]" />,
+    Code2: <Code2 className="w-8 h-8 text-[#E11D2E]" />,
+    Brain: <Brain className="w-8 h-8 text-[#E11D2E]" />,
     Sparkles: <Sparkles className="w-8 h-8 text-[#E11D2E]" />,
-    Palette: <Palette className="w-8 h-8 text-[#E11D2E]" />,
     Layers: <Layers className="w-8 h-8 text-[#E11D2E]" />,
+    Film: <Film className="w-8 h-8 text-[#E11D2E]" />,
+    Palette: <Palette className="w-8 h-8 text-[#E11D2E]" />,
   };
 
   return (
@@ -30,7 +32,7 @@ export const Services: React.FC = () => {
               WHAT I BRING<span className="text-[#E11D2E]">.</span>
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base max-w-lg mt-2 font-normal">
-              Specialized post-production services engineered for commercial directors, production houses, and visionary music artists.
+              Technical capabilities spanning modern frontend architectures, intelligent machine learning workflows, and interactive interfaces.
             </p>
           </div>
         </div>

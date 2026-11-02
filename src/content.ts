@@ -10,7 +10,7 @@ export interface ProjectItem {
   id: string;
   number: string;
   title: string;
-  category: 'Commercial' | 'Short Film' | 'Music Video' | 'VFX';
+  category: 'Frontend' | 'AI / ML' | 'Full Stack' | 'Commercial' | 'Short Film' | 'Music Video' | 'VFX';
   year: string;
   client: string;
   duration: string;
@@ -79,53 +79,56 @@ export const portfolioContent = {
   // PERSONAL DETAILS
   // -------------------------------------------------------------
   personal: {
-    // Replace "Alex Mercer" with your real name
-    name: "Alex Mercer",
-    firstName: "Alex",
-    lastName: "Mercer",
-    role: "Video Editor & VFX Artist",
+    name: "Abhay Raj Singh",
+    firstName: "Abhay",
+    lastName: "Singh",
+    role: "MCA Student & Frontend Developer | AI/ML",
     email: "imabbhhhay@gmail.com",
     phone: "+91 98765 43210",
-    location: "India (Remote / Worldwide)",
-    availability: "Available for freelance & select productions",
-    tagline: "I turn raw footage into stories people feel.",
-    shortIntro: "Editor and VFX artist with 10+ years crafting commercials, short films and music videos. I blend sharp storytelling with cinematic visuals.",
+    location: "India (Remote / Hybrid)",
+    availability: "Available for Frontend & AI/ML opportunities",
+    tagline: "Bridging reactive web interfaces with intelligent AI/ML systems.",
+    shortIntro: "MCA student and passionate frontend developer leaning towards machine learning and artificial intelligence. I build high-performance web applications, interactive interfaces, and intelligent digital products.",
     quoteCard: {
-      quote: "A good edit is invisible. A great one is felt.",
-      author: "Alex Mercer",
-      role: "Editor & VFX Artist"
+      quote: "Code is the architecture. Intelligence is the craft.",
+      author: "Abhay Raj Singh",
+      role: "MCA Student & Frontend Developer"
     },
     stats: [
-      { label: "Years Experience", value: 10, suffix: "+" },
-      { label: "Projects Completed", value: 150, suffix: "+" },
-      { label: "Festival Awards", value: 10, suffix: "" },
-      { label: "Combined Views", value: 25, suffix: "M+" },
+      { label: "Frontend Projects", value: 20, suffix: "+" },
+      { label: "MCA Scholar", value: 2026, suffix: "" },
+      { label: "Core Tech Stack", value: 12, suffix: "+" },
+      { label: "AI/ML Models & Demos", value: 8, suffix: "+" },
     ],
     socials: [
-      { name: "Instagram", url: "https://instagram.com", handle: "@alexmercer.edit" },
-      { name: "YouTube", url: "https://youtube.com", handle: "Alex Mercer Post" },
-      { name: "Vimeo", url: "https://vimeo.com", handle: "alexmercer" },
-      { name: "LinkedIn", url: "https://linkedin.com", handle: "alex-mercer" },
-      { name: "Behance", url: "https://behance.net", handle: "alexmercer" },
+      { name: "GitHub", url: "https://github.com", handle: "abhayrajsingh" },
+      { name: "LinkedIn", url: "https://linkedin.com", handle: "abhay-raj-singh" },
+      { name: "LeetCode", url: "https://leetcode.com", handle: "abhayrajsingh" },
+      { name: "Twitter / X", url: "https://x.com", handle: "@abhayraj" },
+      { name: "Instagram", url: "https://instagram.com", handle: "@abhayrajsingh" },
     ],
     // Portrait image in Hero (transparent cutout recommended)
     heroPortrait: "/assets/hero-portrait.png",
     cvDownloadUrl: "#", // Link to your CV/Resume PDF
-    showreelVideoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1&mute=0", // Featured showreel for contact tile & hero
+    showreelVideoUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1&mute=0", // Featured showcase for contact tile & hero
   },
 
   // -------------------------------------------------------------
   // MARQUEE SOFTWARE TICKER
   // -------------------------------------------------------------
   softwareTicker: [
-    "PREMIERE PRO",
-    "AFTER EFFECTS",
-    "DAVINCI RESOLVE",
-    "BLENDER",
-    "NUKE",
-    "PHOTOSHOP",
-    "CINEMA 4D",
-    "UNREAL ENGINE"
+    "REACT.JS",
+    "TYPESCRIPT",
+    "NEXT.JS",
+    "TAILWIND CSS",
+    "PYTHON",
+    "PYTORCH",
+    "TENSORFLOW",
+    "SCIKIT-LEARN",
+    "FASTAPI",
+    "NODE.JS",
+    "GSAP",
+    "GIT & GITHUB"
   ],
 
   // -------------------------------------------------------------
@@ -135,160 +138,160 @@ export const portfolioContent = {
     {
       id: "project-1",
       number: "01",
-      title: "Neon Nights",
-      category: "Music Video",
+      title: "NeuralCanvas AI",
+      category: "AI / ML",
       year: "2025",
-      client: "Sony Music / Orbit Sound",
-      duration: "03:45",
-      description: "High-tempo cyberpunk music video featuring complex rhythmic cuts, neon volumetric glow passes, and dynamic speed-ramped transitions synchronized to sub-bass transients.",
+      client: "Generative Media Lab",
+      duration: "Live Demo",
+      description: "Interactive generative AI interface enabling real-time neural style transfer, dynamic canvas diffusion, and GPU-accelerated image synthesis with sub-second feedback.",
       aspectRatio: "wide",
       thumbnailUrl: "/assets/projects/project-1.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["Premiere Pro", "After Effects", "DaVinci Resolve"]
+      tools: ["React", "Python", "PyTorch", "FastAPI"]
     },
     {
       id: "project-2",
       number: "02",
-      title: "Ascend",
-      category: "Commercial",
+      title: "Nexus Analytics OS",
+      category: "Frontend",
       year: "2025",
-      client: "Magna Tech Wear",
-      duration: "01:00",
-      description: "Futuristic apparel launch commercial combining live-action macro fabric textures with 3D wireframe simulations and cinematic sound design.",
+      client: "FinTech Enterprise",
+      duration: "Dashboard",
+      description: "Ultra-low latency financial analytics platform featuring WebSocket streaming charts, customizable modular grid layouts, and silky smooth GSAP micro-interactions.",
       aspectRatio: "standard",
       thumbnailUrl: "/assets/projects/project-2.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["After Effects", "Cinema 4D", "DaVinci Resolve"]
+      tools: ["Next.js", "TypeScript", "Tailwind CSS", "GSAP"]
     },
     {
       id: "project-3",
       number: "03",
-      title: "Echoes of Rain",
-      category: "Short Film",
+      title: "VisionLens AI",
+      category: "AI / ML",
       year: "2024",
-      client: "Apex Independent Cinema",
-      duration: "14:20",
-      description: "Moody psychological drama set during a storm. Precise pacing, deep shadow recovery in ACES color pipeline, and atmospheric particle rain compositing.",
+      client: "Computer Vision Initiative",
+      duration: "Web App",
+      description: "Browser-native real-time object detection and spatial hand tracking powered by lightweight TensorFlow.js models and WebAssembly inference acceleration.",
       aspectRatio: "standard",
       thumbnailUrl: "/assets/projects/project-3.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["Premiere Pro", "DaVinci Resolve", "Nuke"]
+      tools: ["TensorFlow.js", "React", "TypeScript", "Python"]
     },
     {
       id: "project-4",
       number: "04",
-      title: "Skyline Rush",
-      category: "VFX",
+      title: "Hyperion Interface OS",
+      category: "Frontend",
       year: "2024",
-      client: "Pixelcraft Studios",
-      duration: "02:15",
-      description: "Complete visual effects breakdown demonstrating camera tracking, matte painting sky replacement, photorealistic smoke simulations, and final film grain integration.",
+      client: "Developer Portfolio",
+      duration: "Interactive",
+      description: "Figma-inspired collaborative live build engine featuring ghost cursors, real-time typing simulations, selection frames, and hardware-accelerated animations.",
       aspectRatio: "wide",
       thumbnailUrl: "/assets/projects/project-4.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["Nuke", "Blender", "After Effects"]
+      tools: ["React", "TypeScript", "GSAP", "Tailwind CSS"]
     },
     {
       id: "project-5",
       number: "05",
-      title: "Pulse",
-      category: "Music Video",
+      title: "Aura Commerce",
+      category: "Frontend",
       year: "2024",
-      client: "Visionary Records",
-      duration: "04:10",
-      description: "Hypnotic strobe-lit electronic performance with glitch typography, thermal camera treatments, and seamless match-cuts.",
+      client: "Luxury Goods Concept",
+      duration: "E-Commerce",
+      description: "High-performance headless e-commerce store with predictive search, dynamic cart drawer, optimistic UI updates, and Lighthouse 100 benchmark scores.",
       aspectRatio: "standard",
       thumbnailUrl: "/assets/projects/project-5.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["Premiere Pro", "After Effects"]
+      tools: ["Next.js", "TypeScript", "Zustand", "Tailwind CSS"]
     },
     {
       id: "project-6",
       number: "06",
-      title: "Iron Veil",
-      category: "Short Film",
+      title: "AlgoViz Interactive",
+      category: "Full Stack",
       year: "2023",
-      client: "Darkroom Pictures",
-      duration: "01:45",
-      description: "High-intensity dystopian teaser trailer. Punchy editorial syncopation, bespoke title sequence typography, and gritty 35mm film emulation.",
+      client: "MCA Academic Project",
+      duration: "Educational",
+      description: "Comprehensive algorithm visualizer bringing graph traversals, Dijkstra pathfinding, and dynamic programming to life with interactive step controls.",
       aspectRatio: "standard",
       thumbnailUrl: "/assets/projects/project-6.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["DaVinci Resolve", "After Effects"]
+      tools: ["React", "TypeScript", "HTML5 Canvas", "Algorithms"]
     },
     {
       id: "project-7",
       number: "07",
-      title: "Drift",
-      category: "Commercial",
+      title: "Sentinel NLP Engine",
+      category: "AI / ML",
       year: "2023",
-      client: "Vertex Automotive",
-      duration: "00:45",
-      description: "Adrenaline-fueled sports car commercial featuring anamorphic lens flares, dynamic speed warping, asphalt particle enhancements, and golden hour grade.",
+      client: "Research Showcase",
+      duration: "ML Model",
+      description: "Deep learning sentiment analysis and document intelligence pipeline leveraging fine-tuned transformer architectures and FastAPI microservices.",
       aspectRatio: "standard",
       thumbnailUrl: "/assets/projects/project-7.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["Premiere Pro", "DaVinci Resolve", "Blender"]
+      tools: ["PyTorch", "Python", "FastAPI", "Docker"]
     },
     {
       id: "project-8",
       number: "08",
-      title: "Afterglow",
-      category: "Commercial",
-      year: "2022",
-      client: "Lumen Documentary Initiative",
-      duration: "08:30",
-      description: "Poetic archival documentary cut balancing fragile historical 8mm film scans with crisp modern 8K cinema footage.",
+      title: "OmniChat Agent",
+      category: "Full Stack",
+      year: "2024",
+      client: "Autonomous Systems Lab",
+      duration: "AI Agent",
+      description: "Context-aware conversational AI assistant capable of document Q&A, markdown streaming, and generative component rendering with multi-turn memory.",
       aspectRatio: "standard",
       thumbnailUrl: "/assets/projects/project-8.jpg",
       previewVideoUrl: "/assets/projects/sample-preview.webm",
       videoType: "youtube",
       videoEmbedUrl: "https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1",
-      tools: ["Premiere Pro", "DaVinci Resolve"]
+      tools: ["Next.js", "LangChain", "OpenAI API", "PostgreSQL"]
     }
   ] as ProjectItem[],
 
   // -------------------------------------------------------------
-  // CLIENT BRANDS (Marquee Strip)
+  // TECH & INNOVATION HUBS (Marquee Strip)
   // -------------------------------------------------------------
   clients: [
-    { name: "NOVA", tagline: "Creative Studio" },
-    { name: "MAGNA", tagline: "Apparel Tech" },
-    { name: "RAINFALL", tagline: "Production Co." },
-    { name: "ORBIT", tagline: "Sound & Music" },
-    { name: "VERTEX", tagline: "Automotive" },
-    { name: "PIXELCRAFT", tagline: "VFX Works" },
-    { name: "LUMEN", tagline: "Media Agency" },
+    { name: "NEURAL LABS", tagline: "AI Research" },
+    { name: "VERCEL", tagline: "Edge Cloud" },
+    { name: "HUGGING FACE", tagline: "Open ML" },
+    { name: "ORBIT TECH", tagline: "Frontend OS" },
+    { name: "VERTEX DATA", tagline: "Analytics Hub" },
+    { name: "INNOVATEX", tagline: "Hackathon Lab" },
+    { name: "ACM STUDENT", tagline: "Chapter Tech" },
   ],
 
   // -------------------------------------------------------------
-  // AWARDS & RECOGNITION (10 Awards)
+  // AWARDS & RECOGNITION (10 Honors)
   // -------------------------------------------------------------
   awards: [
-    { id: "a-1", title: "1st Place", event: "National Short Film Festival", year: "2025", badge: "Winner" },
-    { id: "a-2", title: "Best Editing", event: "Indie Film Awards", year: "2025", badge: "Gold Laurels" },
-    { id: "a-3", title: "Best Short Film", event: "City Film Fest", year: "2024", badge: "Grand Jury" },
-    { id: "a-4", title: "Best Music Video", event: "Vision Awards", year: "2024", badge: "Trophy" },
-    { id: "a-5", title: "1st Place, Competency Event", event: "Regional Media Competition", year: "2023", badge: "1st Place" },
-    { id: "a-6", title: "1st Place, Short Film", event: "Campus Film Fest", year: "2023", badge: "Winner" },
-    { id: "a-7", title: "Best Visual Effects", event: "Indie Film Awards", year: "2022", badge: "VFX Gold" },
-    { id: "a-8", title: "Finalist", event: "International Motion Awards", year: "2022", badge: "Official Selection" },
-    { id: "a-9", title: "Best Creative Content", event: "Digital Creator Awards", year: "2021", badge: "Honoree" },
-    { id: "a-10", title: "Best Student Film", event: "Film Academy Showcase", year: "2021", badge: "Excellence" }
+    { id: "a-1", title: "1st Place — Web Innovation Hackathon", event: "National Tech Hackathon", year: "2025", badge: "Winner" },
+    { id: "a-2", title: "Best AI/ML Application", event: "Smart India Developer Challenge", year: "2025", badge: "Gold Award" },
+    { id: "a-3", title: "Dean's Merit Scholar — MCA", event: "University Academic Honors", year: "2024", badge: "Top 1%" },
+    { id: "a-4", title: "Best UI/UX & Frontend Architecture", event: "InnovateX Tech Fest", year: "2024", badge: "1st Place" },
+    { id: "a-5", title: "Outstanding Project Award (Computer Vision)", event: "AI Summit Showcase", year: "2024", badge: "Special Jury" },
+    { id: "a-6", title: "1st Place — Algorithm Coding Sprint", event: "Campus Tech Olympiad", year: "2023", badge: "Champion" },
+    { id: "a-7", title: "Distinction Graduate — BCA", event: "University Convocation", year: "2024", badge: "Gold Medal" },
+    { id: "a-8", title: "Finalist — National AI Buildathon", event: "Open Innovation Summit", year: "2023", badge: "Finalist" },
+    { id: "a-9", title: "Open Source Contributor Recognition", event: "Global Developer Ecosystem", year: "2023", badge: "Honoree" },
+    { id: "a-10", title: "Academic Excellence in Computer Science", event: "Department of Computer Applications", year: "2022", badge: "Excellence" }
   ] as AwardItem[],
 
   // -------------------------------------------------------------
@@ -347,40 +350,40 @@ export const portfolioContent = {
 
   // 4-Step Process for Before/After
   processSteps: [
-    { step: "01", name: "Ingest & Conforming", desc: "Rigorous metadata verification, RAW sensor debayering, and ACES / Log color space alignment." },
-    { step: "02", name: "Editorial & Pacing", desc: "Crafting the heartbeat of the edit. Micro-trimming frames to sync emotional beats and musical cadence." },
-    { step: "03", name: "VFX & Compositing", desc: "3D camera tracking, clean plate generation, CGI multipass merging, and atmospheric volumetrics." },
-    { step: "04", name: "Master Color & Sound", desc: "Precision secondary color isolation, film emulsion emulation, and Dolby-calibrated audio mastering." }
+    { step: "01", name: "System Architecture", desc: "Rigorous requirement analysis, data flow modeling, and modern tech stack selection (React, TS, Python)." },
+    { step: "02", name: "Frontend Engineering", desc: "Crafting modular, reusable components, reactive state stores, and fluid micro-interactions." },
+    { step: "03", name: "AI/ML Integration", desc: "Model fine-tuning, inference pipeline optimization, and seamless REST/WebSocket connectivity." },
+    { step: "04", name: "Optimization & Polish", desc: "Lighthouse 100 performance tuning, accessibility audits, and cross-platform responsive mastery." }
   ],
 
   // -------------------------------------------------------------
   // ABOUT SECTION: SKILLS, METERS, AND TOOLS
   // -------------------------------------------------------------
   about: {
-    headingPart1: "NOT JUST VISUALS.",
-    headingPart2: "A WAY OF STORYTELLING.",
+    headingPart1: "FRONTEND PRECISION.",
+    headingPart2: "POWERED BY INTELLIGENCE.",
     bioParagraphs: [
-      "Every cut is a conscious decision of emotion, rhythm, and tension. For over a decade, I've lived at the intersection of cinematic storytelling and cutting-edge visual effects.",
-      "From multi-million view music videos to high-stakes commercial spots and festival-winning narrative shorts, my approach treats footage not just as frames on a timeline, but as living architecture for psychological immersion.",
-      "Whether collaborating on set as a VFX supervisor or locked in the edit suite fine-tuning micro-frames, my goal is always the same: make the visual craft disappear so the audience only feels the story."
+      "Currently pursuing my Master of Computer Applications (MCA), I build fast, interactive, and beautifully crafted frontend web applications with modern architectures.",
+      "My passion lies at the intersection of reactive user interfaces and Artificial Intelligence / Machine Learning. I enjoy bridging complex algorithms, neural networks, and computer science theory into intuitive, accessible web products.",
+      "From engineering responsive React & TypeScript platforms to experimenting with PyTorch models, LLMs, and real-time data pipelines, I strive to write clean, maintainable code with exceptional visual polish."
     ],
     skills: [
-      { name: "Video Editing & Narrative Flow", percentage: 95 },
-      { name: "VFX & Node Compositing", percentage: 90 },
-      { name: "Cinematic Color Grading (ACES)", percentage: 88 },
-      { name: "Motion Graphics & Kinetic Type", percentage: 85 },
-      { name: "Sound Design & Audio Sweetening", percentage: 75 },
-      { name: "3D CGI & Particle Simulation", percentage: 70 },
+      { name: "Frontend Development (React, Next.js, TS)", percentage: 95 },
+      { name: "Interactive UI & Web Animations (Tailwind, GSAP)", percentage: 92 },
+      { name: "Python & Machine Learning Foundations", percentage: 82 },
+      { name: "Data Structures & Algorithms (MCA Core)", percentage: 88 },
+      { name: "AI APIs & Intelligent Integrations", percentage: 85 },
+      { name: "RESTful APIs & Backend Connectivity", percentage: 80 },
     ],
     tools: [
-      { name: "Premiere Pro", category: "NLE Edit" },
-      { name: "After Effects", category: "Motion / VFX" },
-      { name: "DaVinci Resolve", category: "Color & Fairlight" },
-      { name: "Nuke", category: "Node Compositing" },
-      { name: "Blender", category: "3D CGI" },
-      { name: "Photoshop", category: "Matte Painting" },
-      { name: "Cinema 4D", category: "3D Motion" },
-      { name: "Audition / ProTools", category: "Sound Design" },
+      { name: "React / Next.js", category: "Frontend" },
+      { name: "TypeScript", category: "Language" },
+      { name: "Python", category: "AI / ML" },
+      { name: "Tailwind CSS", category: "Styling" },
+      { name: "PyTorch / Scikit", category: "Machine Learning" },
+      { name: "Node.js / FastAPI", category: "Backend / API" },
+      { name: "Git / GitHub", category: "Version Control" },
+      { name: "Figma", category: "UI/UX Design" },
     ]
   },
 
@@ -390,57 +393,35 @@ export const portfolioContent = {
   experience: [
     {
       id: "exp-1",
-      period: "2023 – PRESENT",
-      role: "Senior Editor & VFX Artist",
-      company: "Freelance / Global Productions",
-      location: "Remote / On-site",
+      period: "2024 – PRESENT",
+      role: "MCA Student & Frontend Developer",
+      company: "Master of Computer Applications",
+      location: "India",
       bullets: [
-        "Leading end-to-end post-production for high-profile commercial campaigns, narrative short films, and music videos.",
-        "Engineered ACES color workflows and node-based VFX composites that reduced review turnaround cycles by 35%."
+        "Advanced graduate coursework in Computer Science, Distributed Systems, Software Engineering, and AI/ML algorithms.",
+        "Developing production-grade React & TypeScript applications and exploring generative AI & deep learning architectures."
       ]
     },
     {
       id: "exp-2",
-      period: "2020 – 2023",
-      role: "VFX Artist & Compositor",
-      company: "Pixelcraft Studios",
-      location: "Hybrid",
+      period: "2023 – 2024",
+      role: "Frontend Developer & AI Explorer",
+      company: "Independent Projects & Open Source",
+      location: "Remote",
       bullets: [
-        "Supervised complex sequence cleanups, green screen keying, planar tracking, and photorealistic 3D asset integration.",
-        "Collaborated with directors to establish visual grammar for futuristic digital environments and action sequences."
+        "Architected responsive, accessible web applications utilizing React, Next.js, Tailwind CSS, and state management libraries.",
+        "Integrated machine learning microservices and modern LLM APIs to create smart interactive tools."
       ]
     },
     {
       id: "exp-3",
-      period: "2018 – 2020",
-      role: "Video Editor",
-      company: "Lumen Media",
-      location: "Studio",
+      period: "2021 – 2024",
+      role: "Bachelor of Computer Applications (BCA)",
+      company: "University / College",
+      location: "India",
       bullets: [
-        "Cut over 60 commercial spots, branded documentaries, and digital promotional packages for high-growth tech brands.",
-        "Pioneered high-velocity editorial templates and audio-reactive pacing methodologies."
-      ]
-    },
-    {
-      id: "exp-4",
-      period: "2016 – 2018",
-      role: "Content Creator & Editor",
-      company: "Self-employed",
-      location: "Independent",
-      bullets: [
-        "Grew cinematic video channels to millions of aggregate views through relentless experimentation with narrative rhythm.",
-        "Handled the entire production stack: lighting, cinematography, editing, color grading, and final delivery."
-      ]
-    },
-    {
-      id: "exp-5",
-      period: "2012 – 2016",
-      role: "B.Sc. in Animation & Multimedia",
-      company: "University of Media Arts",
-      location: "Academic",
-      bullets: [
-        "Rigorous foundation in film theory, classical cinematography, digital compositing mathematics, and narrative rhythm.",
-        "Graduated with Top Honors for final senior thesis VFX short film."
+        "Graduated with Distinction; strong foundation in OOP, DBMS, Data Structures, Web Development, and Applied Mathematics.",
+        "Created full-stack capstone projects and led student technical initiatives and hackathon teams."
       ]
     }
   ] as TimelineItem[],
@@ -452,29 +433,29 @@ export const portfolioContent = {
     {
       id: "srv-1",
       number: "01",
-      title: "Video Editing",
-      shortDesc: "Rhythm-driven narrative cuts, seamless match-cuts, and surgical pacing designed to keep eyes locked from the first frame to the last.",
-      icon: "Film"
+      title: "Frontend Engineering",
+      shortDesc: "Pixel-perfect, high-performance web applications built with React, Next.js, and TypeScript, engineered for speed, SEO, and responsiveness.",
+      icon: "Code2"
     },
     {
       id: "srv-2",
       number: "02",
-      title: "VFX & Compositing",
-      shortDesc: "Photorealistic CGI integration, camera tracking, plate cleanups, digital sky replacements, and atmospheric volume effects.",
-      icon: "Sparkles"
+      title: "AI / ML Integration",
+      shortDesc: "Connecting modern frontend apps with intelligent models, Python backends, predictive algorithms, and generative AI interfaces.",
+      icon: "Brain"
     },
     {
       id: "srv-3",
       number: "03",
-      title: "Color Grading",
-      shortDesc: "Mood-defining ACES color science, bespoke film stock emulation, precise secondary skin isolation, and dramatic tone curve sculpting.",
-      icon: "Palette"
+      title: "Interactive UI & Motion",
+      shortDesc: "Engaging digital experiences using GSAP, Framer Motion, and Tailwind CSS to transform static interfaces into dynamic stories.",
+      icon: "Sparkles"
     },
     {
       id: "srv-4",
       number: "04",
-      title: "Motion Graphics",
-      shortDesc: "Futuristic UI/HUD overlays, kinetic typography, sleek title sequences, and graphic brand identities rendered in motion.",
+      title: "Full-Stack API Solutions",
+      shortDesc: "Robust client-server integration, clean REST/FastAPI endpoints, database design, and end-to-end type safety.",
       icon: "Layers"
     }
   ] as ServiceItem[],
@@ -485,26 +466,26 @@ export const portfolioContent = {
   testimonials: [
     {
       id: "test-1",
-      quote: "Alex possesses a rare intuition for pacing and rhythm. He transformed our raw footage into an award-winning commercial that exceeded all stakeholder expectations.",
-      name: "Marcus Vance",
-      role: "Creative Director",
-      company: "Nova Creative",
+      quote: "Abhay has an exceptional knack for building clean, reactive frontends. His ability to grasp both algorithmic concepts and modern web architecture is outstanding.",
+      name: "Dr. K. Sharma",
+      role: "Professor & Academic Guide",
+      company: "Department of Computer Applications",
       avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
     },
     {
       id: "test-2",
-      quote: "The VFX work was simply pristine. Flawless tracking, photoreal compositing, and delivered ahead of our festival lock deadline. A true creative partner.",
-      name: "Elena Rostova",
-      role: "Director & Producer",
-      company: "Apex Independent Films",
+      quote: "Working with Abhay on our AI-powered web platform was seamless. He delivers clean code, polished UI animations, and always thinks ahead on system scalability.",
+      name: "Rohan Verma",
+      role: "Lead Full-Stack Engineer",
+      company: "Tech Innovators Lab",
       avatarUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80"
     },
     {
       id: "test-3",
-      quote: "Working with Alex felt effortless. His color grading gave our music video the exact gritty, nostalgic film look we had spent months trying to describe.",
-      name: "Jordan Kael",
-      role: "Recording Artist & Label Head",
-      company: "Orbit Sound",
+      quote: "Abhay bridges the gap between design aesthetic, frontend engineering, and machine learning remarkably well. Highly driven and detail-oriented.",
+      name: "Priya Nair",
+      role: "Product Designer",
+      company: "UX & Creative Collective",
       avatarUrl: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80"
     }
   ] as TestimonialItem[],
@@ -513,27 +494,27 @@ export const portfolioContent = {
   // CONTACT & FOOTER
   // -------------------------------------------------------------
   contact: {
-    heading: "LET'S WORK TOGETHER.",
-    subheading: "Have a project in mind, a film to cut, or a vision that needs high-end visual execution? Drop a line and let's craft something unforgettable.",
+    heading: "LET'S BUILD TOGETHER.",
+    subheading: "Have a frontend project, an AI/ML concept, or an innovative web application you'd like to collaborate on? Drop a message and let's create something extraordinary.",
     projectTypes: [
-      "Commercial / Brand Campaign",
-      "Short Film / Feature Post",
-      "Music Video",
-      "VFX & Compositing Work",
-      "Color Grading Suite",
-      "Full Post-Production Package"
+      "Frontend Web Application (React / Next.js)",
+      "AI / Machine Learning Web Integration",
+      "Interactive UI / Web Animation (GSAP)",
+      "Full-Stack Web Development",
+      "Internship / Full-time Opportunity",
+      "Open Source Collaboration"
     ],
     budgetRanges: [
-      "< $2,500",
-      "$2,500 – $5,000",
-      "$5,000 – $10,000",
-      "$10,000+"
+      "< $1,000",
+      "$1,000 – $3,000",
+      "$3,000 – $5,000",
+      "Discuss Opportunity"
     ],
     showreelTile: {
-      tag: "FEATURED SHOWREEL",
-      title: "MAKE IT FEEL REAL.",
-      duration: "02:24",
-      subtext: "Click to launch director's 4K showreel"
+      tag: "FEATURED SHOWCASE",
+      title: "EXPLORE THE INTERFACE.",
+      duration: "Live",
+      subtext: "Click to explore featured portfolio demo"
     }
   }
 };

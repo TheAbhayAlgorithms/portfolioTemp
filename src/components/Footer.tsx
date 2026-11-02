@@ -66,16 +66,16 @@ export const Footer: React.FC = () => {
         {/* Bottom Row: Copyright, Available status, and Credit line */}
         <div data-build="text" className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8 border-t border-white/10 font-mono text-xs text-zinc-500">
           <div>
-            © {new Date().getFullYear()} {personal.name}. All cinematic &amp; visual rights reserved.
+            © {new Date().getFullYear()} {personal.name}. All rights reserved.
           </div>
 
           <div className="flex items-center gap-2 text-zinc-400">
             <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E]" />
-            <span>EDITORIAL • VFX • COLOR GRADING SUITE</span>
+            <span>MCA • FRONTEND • AI / ML</span>
           </div>
 
           <div className="text-zinc-600">
-            Crafted for high-end cinematic vision.
+            Crafted with modern reactive architecture.
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowRight, Download, Film, Sparkles } from 'lucide-react';
+import { ArrowRight, Download, Code2, GraduationCap, Brain } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
 import { MagneticButton } from './MagneticButton.tsx';
 
@@ -116,19 +116,24 @@ export const Hero: React.FC = () => {
               </h1>
             </div>
 
-            {/* Role Tags: EDITOR & VFX ARTIST */}
+            {/* Role Tags: MCA STUDENT, FRONTEND DEVELOPER & AI/ML */}
             <div
               data-build="card"
-              className="flex flex-wrap items-center gap-3 mb-6"
+              className="flex flex-wrap items-center gap-2.5 mb-6"
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-white font-mono text-xs sm:text-sm uppercase tracking-widest">
-                <Film className="w-3.5 h-3.5 text-[#E11D2E]" />
-                <span>VIDEO EDITOR</span>
+                <GraduationCap className="w-3.5 h-3.5 text-[#E11D2E]" />
+                <span>MCA STUDENT</span>
+              </div>
+              <span className="text-zinc-600 font-mono">✕</span>
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-white font-mono text-xs sm:text-sm uppercase tracking-widest">
+                <Code2 className="w-3.5 h-3.5 text-[#2F6BFF]" />
+                <span>FRONTEND DEVELOPER</span>
               </div>
               <span className="text-zinc-600 font-mono">✕</span>
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E11D2E]/10 border border-[#E11D2E]/30 text-[#FF2D3F] font-mono text-xs sm:text-sm uppercase tracking-widest shadow-[0_0_15px_rgba(225,29,46,0.15)]">
-                <Sparkles className="w-3.5 h-3.5 text-[#FF2D3F]" />
-                <span>VFX ARTIST</span>
+                <Brain className="w-3.5 h-3.5 text-[#FF2D3F]" />
+                <span>AI / ML</span>
               </div>
             </div>
 
@@ -137,7 +142,7 @@ export const Hero: React.FC = () => {
               data-build="paragraph"
               className="text-base sm:text-lg text-zinc-300 max-w-xl font-normal leading-relaxed mb-8"
             >
-              Editor and VFX artist with 10+ years crafting commercials, short films and music videos. I blend sharp storytelling with cinematic visuals.
+              {personal.shortIntro}
             </p>
 
             {/* Two Call to Action Buttons */}

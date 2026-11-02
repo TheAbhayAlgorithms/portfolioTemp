@@ -64,7 +64,7 @@ export const About: React.FC = () => {
             {/* Mini Grid of Tools I Use */}
             <div className="mt-8 pt-6 border-t border-white/10">
               <span className="font-mono text-[11px] uppercase tracking-wider text-zinc-400 block mb-3 flex items-center gap-2">
-                <Wrench className="w-3.5 h-3.5 text-[#E11D2E]" /> HARDWARE &amp; NLE STACK
+                <Wrench className="w-3.5 h-3.5 text-[#E11D2E]" /> TECH &amp; DEV STACK
               </span>
               <div className="grid grid-cols-2 gap-2">
                 {about.tools.map((tool) => (
@@ -86,7 +86,7 @@ export const About: React.FC = () => {
             <div className="space-y-6">
               <div className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-400 pb-3 border-b border-white/10">
                 <span className="w-2 h-2 rounded-full bg-[#E11D2E]" />
-                <span>DIRECTOR'S PERSPECTIVE</span>
+                <span>DEVELOPER'S PERSPECTIVE</span>
               </div>
 
               {about.bioParagraphs.map((paragraph, idx) => (
@@ -104,11 +104,11 @@ export const About: React.FC = () => {
             <div className="pt-6 border-t border-white/10 grid grid-cols-2 gap-4 font-mono text-xs">
               <div>
                 <span className="text-zinc-500 block text-[10px] uppercase">DEGREE</span>
-                <span className="text-white font-medium">B.Sc. Animation &amp; Multimedia</span>
+                <span className="text-white font-medium">MCA (Pursuing)</span>
               </div>
               <div>
-                <span className="text-zinc-500 block text-[10px] uppercase">PIPELINE</span>
-                <span className="text-[#FF2D3F] font-medium">ACES / OCIO &amp; Rec.709</span>
+                <span className="text-zinc-500 block text-[10px] uppercase">FOCUS</span>
+                <span className="text-[#FF2D3F] font-medium">Frontend &amp; AI / ML</span>
               </div>
             </div>
           </div>

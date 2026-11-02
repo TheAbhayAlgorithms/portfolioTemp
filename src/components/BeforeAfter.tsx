@@ -1,7 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Sliders } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
-import { DesignFrame } from './editor/DesignFrame.tsx';
 
 export const BeforeAfter: React.FC = () => {
   const { beforeAfterComparisons, processSteps } = portfolioContent;
@@ -46,7 +45,7 @@ export const BeforeAfter: React.FC = () => {
 
         {/* Section Heading & Tabs */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-          <div>
+          <div data-build="heading">
             <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl tracking-tight uppercase font-black text-white">
               FROM RAW<span className="text-[#E11D2E]">.</span> TO REAL<span className="text-[#E11D2E]">.</span>
             </h2>
@@ -56,7 +55,7 @@ export const BeforeAfter: React.FC = () => {
           </div>
 
           {/* Switchable Tabs (3 Examples) */}
-          <div className="flex flex-wrap items-center gap-2 p-1.5 bg-[#121214] border border-white/10 rounded-sm">
+          <div data-build="repeated" className="flex flex-wrap items-center gap-2 p-1.5 bg-[#121214] border border-white/10 rounded-sm">
             {beforeAfterComparisons.map((item, idx) => {
               const isActive = activeTabIdx === idx;
               return (
@@ -66,7 +65,7 @@ export const BeforeAfter: React.FC = () => {
                     setActiveTabIdx(idx);
                     setSliderPosition(50);
                   }}
-                  className={`px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all duration-300 rounded-sm flex items-center gap-2 ${
+                  className={`px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all duration-300 rounded-sm flex items-center gap-2 cursor-pointer ${
                     isActive
                       ? 'bg-[#E11D2E] text-white shadow-[0_0_15px_rgba(225,29,46,0.4)] font-bold'
                       : 'text-zinc-400 hover:text-white hover:bg-white/5'
@@ -83,9 +82,12 @@ export const BeforeAfter: React.FC = () => {
         {/* Main Content: Interactive Slider + Process Steps */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left Column: Interactive Before / After Comparison Slider with Design Editor Frame */}
+          {/* Left Column: Interactive Before / After Comparison Slider */}
           <div className="lg:col-span-8 flex flex-col gap-4">
-            <DesignFrame tag="Slider" alwaysVisible={true} className="w-full">
+            <div
+              data-build="card"
+              className="w-full"
+            >
               <div
                 ref={containerRef}
                 onMouseDown={(e) => {
@@ -115,7 +117,6 @@ export const BeforeAfter: React.FC = () => {
                     alt="Raw unedited cinema frame"
                     className="absolute inset-0 w-full h-full object-cover max-w-none select-none pointer-events-none"
                     style={{
-                      // Prevent image from stretching when container is clipped
                       width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%',
                       height: '100%'
                     }}
@@ -154,10 +155,10 @@ export const BeforeAfter: React.FC = () => {
                   <span>◀ DRAG TO COMPARE ▶</span>
                 </div>
               </div>
-            </DesignFrame>
+            </div>
 
             {/* Camera Technical Metadata Specs Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#121214] p-4 border border-white/10 rounded-sm font-mono text-xs">
+            <div data-build="card" className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#121214] p-4 border border-white/10 rounded-sm font-mono text-xs">
               <div>
                 <span className="text-zinc-500 block text-[10px] uppercase">CAMERA</span>
                 <span className="text-white font-medium">{activeComparison.specs.camera}</span>
@@ -198,6 +199,7 @@ export const BeforeAfter: React.FC = () => {
                 {processSteps.map((step) => (
                   <div
                     key={step.step}
+                    data-build="repeated"
                     className="p-4 bg-[#121214] border border-white/10 hover:border-white/20 transition-all rounded-sm"
                   >
                     <div className="flex items-center gap-3 mb-1">

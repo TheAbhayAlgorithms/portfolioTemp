@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Play, Send, CheckCircle2, ArrowRight } from 'lucide-react';
 import { portfolioContent, ProjectItem } from '../content.ts';
 import { MagneticButton } from './MagneticButton.tsx';
-import { DesignFrame } from './editor/DesignFrame.tsx';
 
 interface ContactProps {
   onOpenShowreel: (reelItem: ProjectItem) => void;
@@ -44,7 +43,6 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // Simulate async transmission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
@@ -91,7 +89,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
         </div>
 
         {/* Big Heading: LET'S WORK TOGETHER. */}
-        <div className="mb-16">
+        <div data-build="heading" className="mb-16">
           <h2 className="font-heading text-5xl sm:text-7xl lg:text-9xl tracking-tight uppercase font-black text-white leading-[0.88]">
             LET'S WORK <br />
             <span className="text-[#E11D2E]">TOGETHER.</span>
@@ -106,7 +104,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
           {/* Left Column: Contact Details, Status Badge, Social Links */}
           <div className="lg:col-span-5 space-y-10">
             {/* Availability Badge: Pulsing Green/Red */}
-            <div className="inline-flex items-center gap-3 px-4 py-2 bg-[#121214] border border-white/10 rounded-full">
+            <div data-build="card" className="inline-flex items-center gap-3 px-4 py-2 bg-[#121214] border border-white/10 rounded-full">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E11D2E] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF2D3F]" />
@@ -117,7 +115,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
             </div>
 
             {/* Direct Contact Links */}
-            <div className="space-y-6">
+            <div data-build="card" className="space-y-6">
               <div className="group">
                 <span className="font-mono text-[10px] text-zinc-500 uppercase tracking-widest block mb-1">
                   DIRECT EMAIL
@@ -156,7 +154,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
             </div>
 
             {/* Social Icons Strip */}
-            <div className="pt-6 border-t border-white/10">
+            <div data-build="repeated" className="pt-6 border-t border-white/10">
               <span className="font-mono text-xs uppercase tracking-widest text-zinc-500 block mb-4">
                 // SOCIAL PLATFORMS
               </span>
@@ -167,7 +165,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-4 py-2 bg-[#121214] border border-white/10 hover:border-[#E11D2E]/60 text-zinc-300 hover:text-white font-mono text-xs rounded transition-all duration-300 flex items-center gap-2 group"
+                    className="px-4 py-2 bg-[#121214] border border-white/10 hover:border-[#E11D2E]/60 text-zinc-300 hover:text-white font-mono text-xs rounded transition-all duration-300 flex items-center gap-2 group cursor-pointer"
                   >
                     <span>{social.name}</span>
                     <ArrowRight className="w-3 h-3 text-[#E11D2E] group-hover:translate-x-0.5 transition-transform" />
@@ -180,47 +178,45 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
           {/* Right Column: Framed Showreel Tile + Working Contact Form */}
           <div className="lg:col-span-7 space-y-8">
             
-            {/* Framed Showreel/Video Tile with Design Editor Selection Frame */}
-            <DesignFrame tag="Video" alwaysVisible={true} className="w-full">
-              <div
-                onClick={handleLaunchShowreel}
-                data-cursor="PLAY"
-                className="group relative w-full aspect-[21/9] bg-[#121214] border border-white/15 hover:border-[#E11D2E] rounded-sm overflow-hidden cursor-pointer shadow-[0_15px_35px_rgba(0,0,0,0.8)] transition-all duration-500"
-              >
-                {/* Thumbnail background */}
-                <img
-                  src="/assets/before-after/cyberpunk-final.jpg"
-                  alt="Showreel background preview"
-                  className="w-full h-full object-cover opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700"
-                />
+            {/* Framed Showreel/Video Tile */}
+            <div
+              data-build="video"
+              onClick={handleLaunchShowreel}
+              className="group relative w-full aspect-[21/9] bg-[#121214] border border-white/15 hover:border-[#E11D2E] rounded-sm overflow-hidden cursor-pointer shadow-[0_15px_35px_rgba(0,0,0,0.8)] transition-all duration-500"
+            >
+              {/* Thumbnail background */}
+              <img
+                src="/assets/before-after/cyberpunk-final.jpg"
+                alt="Showreel background preview"
+                className="w-full h-full object-cover opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700"
+              />
 
-                {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+              {/* Dark Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
 
-                {/* Tile Content */}
-                <div className="absolute inset-0 p-6 sm:p-8 flex items-center justify-between">
-                  <div>
-                    <span className="font-mono text-[10px] text-[#FF2D3F] uppercase tracking-[0.25em] font-bold block mb-1">
-                      {contact.showreelTile.tag} • {contact.showreelTile.duration}
-                    </span>
-                    <h3 className="font-heading text-3xl sm:text-5xl uppercase tracking-wider text-white">
-                      {contact.showreelTile.title}
-                    </h3>
-                    <p className="font-mono text-xs text-zinc-400 mt-1">
-                      {contact.showreelTile.subtext}
-                    </p>
-                  </div>
+              {/* Tile Content */}
+              <div className="absolute inset-0 p-6 sm:p-8 flex items-center justify-between">
+                <div>
+                  <span className="font-mono text-[10px] text-[#FF2D3F] uppercase tracking-[0.25em] font-bold block mb-1">
+                    {contact.showreelTile.tag} • {contact.showreelTile.duration}
+                  </span>
+                  <h3 className="font-heading text-3xl sm:text-5xl uppercase tracking-wider text-white">
+                    {contact.showreelTile.title}
+                  </h3>
+                  <p className="font-mono text-xs text-zinc-400 mt-1">
+                    {contact.showreelTile.subtext}
+                  </p>
+                </div>
 
-                  {/* Big Red Play Button */}
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] group-hover:scale-110 transition-transform flex-shrink-0">
-                    <Play className="w-6 h-6 ml-1 fill-white" />
-                  </div>
+                {/* Big Red Play Button */}
+                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] group-hover:scale-110 transition-transform flex-shrink-0">
+                  <Play className="w-6 h-6 ml-1 fill-white" />
                 </div>
               </div>
-            </DesignFrame>
+            </div>
 
             {/* Working Contact Form */}
-            <div className="bg-[#121214] border border-white/10 p-6 sm:p-8 rounded-sm">
+            <div data-build="card" className="bg-[#121214] border border-white/10 p-6 sm:p-8 rounded-sm">
               <h3 className="font-heading text-2xl uppercase tracking-wide text-white mb-6 flex items-center justify-between">
                 <span>PROJECT INQUIRY FORM</span>
                 <span className="font-mono text-xs text-zinc-500">24H RESPONSE</span>
@@ -244,7 +240,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                     <button
                       type="button"
                       onClick={() => setIsSubmitted(false)}
-                      className="mt-4 px-6 py-2 font-mono text-xs text-zinc-300 hover:text-white border border-white/10"
+                      className="mt-4 px-6 py-2 font-mono text-xs text-zinc-300 hover:text-white border border-white/10 cursor-pointer"
                     >
                       Send Another Message
                     </button>
@@ -253,7 +249,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                   <form onSubmit={handleSubmit} className="space-y-5">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Name */}
-                      <div>
+                      <div data-build="form-field">
                         <label className="block font-mono text-xs uppercase tracking-wider text-zinc-400 mb-1">
                           YOUR NAME *
                         </label>
@@ -272,7 +268,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                       </div>
 
                       {/* Email */}
-                      <div>
+                      <div data-build="form-field">
                         <label className="block font-mono text-xs uppercase tracking-wider text-zinc-400 mb-1">
                           EMAIL ADDRESS *
                         </label>
@@ -293,7 +289,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {/* Project Type Dropdown */}
-                      <div>
+                      <div data-build="form-field">
                         <label className="block font-mono text-xs uppercase tracking-wider text-zinc-400 mb-1">
                           PROJECT TYPE
                         </label>
@@ -311,7 +307,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                       </div>
 
                       {/* Budget Dropdown */}
-                      <div>
+                      <div data-build="form-field">
                         <label className="block font-mono text-xs uppercase tracking-wider text-zinc-400 mb-1">
                           ESTIMATED BUDGET
                         </label>
@@ -330,7 +326,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                     </div>
 
                     {/* Message */}
-                    <div>
+                    <div data-build="form-field">
                       <label className="block font-mono text-xs uppercase tracking-wider text-zinc-400 mb-1">
                         PROJECT BRIEF / TIMELINE / SCOPE *
                       </label>
@@ -349,22 +345,24 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <MagneticButton className="w-full">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full py-4 bg-[#E11D2E] hover:bg-[#FF2D3F] disabled:opacity-50 text-white font-mono text-xs sm:text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(225,29,46,0.4)] hover:shadow-[0_0_30px_rgba(225,29,46,0.6)] transition-all duration-300"
-                      >
-                        {isSubmitting ? (
-                          <span>TRANSMITTING BRIEF...</span>
-                        ) : (
-                          <>
-                            <span>SEND TRANSMISSION</span>
-                            <Send className="w-4 h-4" />
-                          </>
-                        )}
-                      </button>
-                    </MagneticButton>
+                    <div data-build="button">
+                      <MagneticButton className="w-full">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="w-full py-4 bg-[#E11D2E] hover:bg-[#FF2D3F] disabled:opacity-50 text-white font-mono text-xs sm:text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(225,29,46,0.4)] hover:shadow-[0_0_30px_rgba(225,29,46,0.6)] transition-all duration-300 cursor-pointer"
+                        >
+                          {isSubmitting ? (
+                            <span>TRANSMITTING BRIEF...</span>
+                          ) : (
+                            <>
+                              <span>SEND TRANSMISSION</span>
+                              <Send className="w-4 h-4" />
+                            </>
+                          )}
+                        </button>
+                      </MagneticButton>
+                    </div>
                   </form>
                 )}
               </AnimatePresence>
@@ -377,4 +375,3 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
     </section>
   );
 };
-

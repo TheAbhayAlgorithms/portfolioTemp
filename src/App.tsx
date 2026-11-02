@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSmoothScroll } from './hooks/useSmoothScroll.ts';
 import { portfolioContent, ProjectItem } from './content.ts';
-import { EditorOverlay } from './components/editor/EditorOverlay.tsx';
-import { BuildSequenceProvider } from './components/editor/BuildSequenceContext.tsx';
+import { LiveBuildProvider } from './components/editor/LiveBuildEngine.tsx';
+import { BuildLayer } from './components/editor/BuildLayer.tsx';
 import { ScrollProgressBar } from './components/ScrollProgressBar.tsx';
 import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
@@ -32,8 +32,8 @@ export function AppContent() {
       {/* 2. Top Red Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* 3. Design-Editor Overlay & Live Build Sequence Layer */}
-      <EditorOverlay />
+      {/* 3. Live Figma-Style Collaborative Build Layer */}
+      <BuildLayer />
 
       {/* 4. Sticky Blurred Glass Navbar */}
       <Navbar firstName={personal.firstName.toUpperCase()} />
@@ -82,9 +82,9 @@ export function AppContent() {
 
 export function App() {
   return (
-    <BuildSequenceProvider>
+    <LiveBuildProvider>
       <AppContent />
-    </BuildSequenceProvider>
+    </LiveBuildProvider>
   );
 }
 

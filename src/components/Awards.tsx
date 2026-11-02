@@ -1,7 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { portfolioContent } from '../content.ts';
-import { DesignFrame } from './editor/DesignFrame.tsx';
 
 export const Awards: React.FC = () => {
   const { awards } = portfolioContent;
@@ -24,7 +22,7 @@ export const Awards: React.FC = () => {
           
           {/* Left Column: Heading + Big Red "10" Laurel Badge */}
           <div className="lg:col-span-5 flex flex-col justify-between sticky top-28">
-            <div>
+            <div data-build="heading">
               <h2 className="font-heading text-5xl sm:text-7xl lg:text-7xl tracking-tight uppercase font-black text-white leading-[0.92] mb-6">
                 THE WORK. <br />
                 <span className="text-[#E11D2E]">THE RECOGNITION.</span>
@@ -34,8 +32,8 @@ export const Awards: React.FC = () => {
               </p>
             </div>
 
-            {/* Big Red "10" inside Laurel-leaf icons with Design Editor Selection Frame */}
-            <DesignFrame tag="Badge" alwaysVisible={true} className="max-w-sm">
+            {/* Big Red "10" inside Laurel-leaf icons */}
+            <div data-build="badge" className="max-w-sm">
               <div className="relative p-8 rounded-xl bg-[#121214] border border-white/10 w-full flex flex-col items-center justify-center text-center shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
                 {/* Corner crosshairs */}
                 <span className="absolute top-2 left-2 font-mono text-[10px] text-zinc-600">+</span>
@@ -76,18 +74,15 @@ export const Awards: React.FC = () => {
                   International &amp; Regional Laurels
                 </div>
               </div>
-            </DesignFrame>
+            </div>
           </div>
 
-          {/* Right Column: Clean List of 10 Awards with Staggered Entrance & Red Hover */}
+          {/* Right Column: Clean List of 10 Awards */}
           <div className="lg:col-span-7 flex flex-col divide-y divide-white/10 border-t border-b border-white/10">
             {awards.map((award, index) => (
-              <motion.div
+              <div
                 key={award.id}
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.45, delay: index * 0.05 }}
+                data-build="repeated"
                 className="group py-5 px-4 sm:px-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.03] transition-all duration-300 relative"
               >
                 {/* Left accent bar on hover */}
@@ -120,7 +115,7 @@ export const Awards: React.FC = () => {
                     {award.year}
                   </span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 

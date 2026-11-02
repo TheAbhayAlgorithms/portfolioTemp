@@ -33,6 +33,91 @@
 }
 
 /* -------------------------------------------------------------
+ * LIVEBUILD ENGINE RULES
+ * ------------------------------------------------------------- */
+[data-build]:not(.is-built) {
+  visibility: hidden !important;
+}
+
+[data-build].is-built {
+  visibility: visible !important;
+}
+
+/* Caret during text typing */
+.build-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background-color: #2F6BFF;
+  vertical-align: text-bottom;
+  margin-left: 2px;
+  animation: build-blink 0.75s step-end infinite;
+}
+
+.is-typing {
+  outline: 1px dashed #2F6BFF !important;
+  outline-offset: 3px;
+}
+
+/* Repeated item duplicate stamp effect */
+.build-stamp {
+  animation: build-duplicate 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes build-duplicate {
+  0% {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(47, 107, 255, 0.45);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+@keyframes build-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Image clip reveal */
+.build-image-reveal {
+  animation: build-clip-deblur 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes build-clip-deblur {
+  0% {
+    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+    filter: blur(12px);
+  }
+  100% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    filter: blur(0px);
+  }
+}
+
+/* Button color wipe */
+.build-button-wipe {
+  position: relative;
+  overflow: hidden;
+}
+.build-button-wipe::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #E11D2E;
+  transform: translateX(-100%);
+  animation: build-wipe 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes build-wipe {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(0%); }
+}
+
+/* -------------------------------------------------------------
  * FILM GRAIN NOISE OVERLAY (4% Opacity)
  * ------------------------------------------------------------- */
 .film-grain {

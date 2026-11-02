@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { MagneticButton } from './MagneticButton.tsx';
-import { DesignFrame } from './editor/DesignFrame.tsx';
 
 interface NavbarProps {
   firstName?: string;
@@ -49,6 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
   return (
     <>
       <header
+        data-build="card"
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
             ? 'bg-[#0A0A0B]/85 backdrop-blur-md border-b border-white/10 py-3 shadow-[0_4px_30px_rgba(0,0,0,0.5)]'
@@ -56,8 +56,8 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* Logo on Left: First name in bold caps with a small red dot and Design Frame */}
-          <DesignFrame tag="Logo">
+          {/* Logo on Left */}
+          <div data-build="text">
             <a
               href="#hero"
               onClick={(e) => handleLinkClick(e, '#hero')}
@@ -68,10 +68,10 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
               </span>
               <span className="w-2.5 h-2.5 rounded-full bg-[#E11D2E] shadow-[0_0_8px_#FF2D3F] transition-transform duration-300 group-hover:scale-125" />
             </a>
-          </DesignFrame>
+          </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav data-build="repeated" className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -85,22 +85,20 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
             ))}
           </nav>
 
-          {/* Right Action: Red 'Hire Me' Button with magnetic effect and Design Frame */}
-          <div className="hidden sm:flex items-center gap-4">
-            <DesignFrame tag="Button">
-              <MagneticButton href="#contact" onClick={() => {
-                const el = document.querySelector('#contact');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}>
-                <button
-                  type="button"
-                  className="relative overflow-hidden group bg-[#E11D2E] hover:bg-[#FF2D3F] text-white px-5 py-2.5 text-xs font-mono font-semibold uppercase tracking-wider rounded-none flex items-center gap-2 shadow-[0_0_20px_rgba(225,29,46,0.35)] hover:shadow-[0_0_25px_rgba(225,29,46,0.6)] transition-all duration-300 active:scale-95"
-                >
-                  <span>HIRE ME</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </button>
-              </MagneticButton>
-            </DesignFrame>
+          {/* Right Action: Red 'Hire Me' Button with magnetic effect */}
+          <div data-build="button" className="hidden sm:flex items-center gap-4">
+            <MagneticButton href="#contact" onClick={() => {
+              const el = document.querySelector('#contact');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}>
+              <button
+                type="button"
+                className="relative overflow-hidden group bg-[#E11D2E] hover:bg-[#FF2D3F] text-white px-5 py-2.5 text-xs font-mono font-semibold uppercase tracking-wider rounded-none flex items-center gap-2 shadow-[0_0_20px_rgba(225,29,46,0.35)] hover:shadow-[0_0_25px_rgba(225,29,46,0.6)] transition-all duration-300 active:scale-95"
+              >
+                <span>HIRE ME</span>
+                <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </MagneticButton>
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -115,7 +113,7 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
         </div>
       </header>
 
-      {/* Mobile Full-Screen Overlay Menu with staggered link reveals */}
+      {/* Mobile Full-Screen Overlay Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -131,18 +129,15 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
               </span>
 
               {navLinks.map((link, idx) => (
-                <motion.a
+                <a
                   key={link.label}
                   href={link.href}
                   onClick={(e) => handleLinkClick(e, link.href)}
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.05 * idx, duration: 0.4 }}
                   className="font-heading text-4xl sm:text-5xl uppercase tracking-wider text-zinc-300 hover:text-[#E11D2E] transition-colors flex items-center justify-between border-b border-white/5 pb-3"
                 >
                   <span>{link.label}</span>
                   <span className="font-mono text-xs text-zinc-600">0{idx + 1}</span>
-                </motion.a>
+                </a>
               ))}
             </div>
 
@@ -165,4 +160,3 @@ export const Navbar: React.FC<NavbarProps> = ({ firstName = "ALEX" }) => {
     </>
   );
 };
-

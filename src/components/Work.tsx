@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Play } from 'lucide-react';
 import { portfolioContent, ProjectItem } from '../content.ts';
-import { DesignFrame } from './editor/DesignFrame.tsx';
 
 interface WorkProps {
   onSelectProject: (project: ProjectItem) => void;
@@ -35,7 +33,7 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
 
         {/* Section Heading & Filter Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-14">
-          <div>
+          <div data-build="heading">
             <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl tracking-tight uppercase font-black text-white">
               WORK THAT SPEAKS<span className="text-[#E11D2E]">.</span>
             </h2>
@@ -45,14 +43,14 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap gap-2">
+          <div data-build="repeated" className="flex flex-wrap gap-2">
             {filters.map((filter) => {
               const isActive = activeFilter === filter;
               return (
                 <button
                   key={filter}
                   onClick={() => setActiveFilter(filter)}
-                  className={`px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all duration-300 border ${
+                  className={`px-4 py-2 font-mono text-xs uppercase tracking-wider transition-all duration-300 border cursor-pointer ${
                     isActive
                       ? 'bg-[#E11D2E] text-white border-[#FF2D3F] shadow-[0_0_15px_rgba(225,29,46,0.4)]'
                       : 'bg-white/5 text-zinc-400 border-white/10 hover:border-white/30 hover:text-white'
@@ -66,122 +64,109 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
         </div>
 
         {/* Bento / Masonry Project Grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6"
-        >
-          <AnimatePresence>
-            {filteredProjects.map((project, index) => {
-              // Bento sizing pattern: alternating large feature cards with standard cards
-              const isLarge = index === 0 || index === 3 || index === 6;
-              const colSpan = isLarge ? 'lg:col-span-8' : 'lg:col-span-4';
-              const isHovered = hoveredProjectId === project.id;
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6">
+          {filteredProjects.map((project, index) => {
+            const isLarge = index === 0 || index === 3 || index === 6;
+            const colSpan = isLarge ? 'lg:col-span-8' : 'lg:col-span-4';
+            const isHovered = hoveredProjectId === project.id;
 
-              return (
-                <motion.div
-                  key={project.id}
-                  layout
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.5, delay: index * 0.08 }}
-                  className={`${colSpan} group relative bg-[#121214] border border-white/10 hover:border-[#E11D2E]/60 transition-all duration-500 overflow-hidden flex flex-col justify-between cursor-pointer rounded-sm hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(225,29,46,0.18)]`}
-                  onClick={() => onSelectProject(project)}
-                  onMouseEnter={() => setHoveredProjectId(project.id)}
-                  onMouseLeave={() => setHoveredProjectId(null)}
-                  data-cursor="PLAY"
-                >
-                  {/* Thumbnail / Looping Video Container with Design Editor Selection Frame */}
-                  <DesignFrame tag="Video" defaultVisible={index === 0} className="w-full">
-                    <div className="relative w-full aspect-[16/10] overflow-hidden bg-black/60">
-                      {/* Fallback Still Image */}
-                      <img
-                        src={project.thumbnailUrl}
-                        alt={project.title}
-                        className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
-                          isHovered && project.previewVideoUrl ? 'opacity-0' : 'opacity-100'
-                        }`}
-                        loading="lazy"
-                      />
+            return (
+              <div
+                key={project.id}
+                data-build="repeated"
+                className={`${colSpan} group relative bg-[#121214] border border-white/10 hover:border-[#E11D2E]/60 transition-all duration-500 overflow-hidden flex flex-col justify-between cursor-pointer rounded-sm hover:-translate-y-1.5 hover:shadow-[0_15px_35px_rgba(225,29,46,0.18)]`}
+                onClick={() => onSelectProject(project)}
+                onMouseEnter={() => setHoveredProjectId(project.id)}
+                onMouseLeave={() => setHoveredProjectId(null)}
+              >
+                {/* Thumbnail / Looping Video Container */}
+                <div className="relative w-full aspect-[16/10] overflow-hidden bg-black/60">
+                  {/* Fallback Still Image */}
+                  <img
+                    src={project.thumbnailUrl}
+                    alt={project.title}
+                    className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+                      isHovered && project.previewVideoUrl ? 'opacity-0' : 'opacity-100'
+                    }`}
+                    loading="lazy"
+                  />
 
-                      {/* Muted Looping Video Preview on Hover */}
-                      {project.previewVideoUrl && (
-                        <video
-                          src={project.previewVideoUrl}
-                          muted
-                          loop
-                          playsInline
-                          autoPlay={isHovered}
-                          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                            isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100 pointer-events-none'
-                          }`}
-                        />
-                      )}
+                  {/* Muted Looping Video Preview on Hover */}
+                  {project.previewVideoUrl && (
+                    <video
+                      src={project.previewVideoUrl}
+                      muted
+                      loop
+                      playsInline
+                      autoPlay={isHovered}
+                      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                        isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100 pointer-events-none'
+                      }`}
+                    />
+                  )}
 
-                      {/* Gradient Overlay for Legibility */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-black/30 pointer-events-none" />
+                  {/* Gradient Overlay for Legibility */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-black/30 pointer-events-none" />
 
-                      {/* Top Left: Number Badge */}
-                      <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-3 py-1 border border-white/10 font-mono text-xs font-bold text-white">
-                        <span className="text-[#E11D2E]">{project.number}</span>
-                        <span className="text-zinc-500">/</span>
-                        <span className="text-zinc-400">{project.category}</span>
-                      </div>
-
-                      {/* Top Right: Year & Duration */}
-                      <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-2.5 py-1 border border-white/10 font-mono text-[11px] text-zinc-300">
-                        <span>{project.year}</span>
-                      </div>
-
-                      {/* Center Hover Play Icon Prompt */}
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                        <div className="w-14 h-14 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] transform group-hover:scale-110 transition-transform duration-300">
-                          <Play className="w-6 h-6 ml-1 fill-white" />
-                        </div>
-                      </div>
-                    </div>
-                  </DesignFrame>
-
-                  {/* Card Bottom Meta */}
-                  <div className="p-6 flex flex-col justify-between flex-grow border-t border-white/5">
-                    <div>
-                      <div className="flex items-start justify-between gap-4 mb-2">
-                        <h3 className="font-heading text-3xl sm:text-4xl uppercase tracking-wide text-white group-hover:text-zinc-100 transition-colors">
-                          {project.title}
-                        </h3>
-                        <div className="w-9 h-9 rounded-full bg-white/5 group-hover:bg-[#E11D2E] text-zinc-400 group-hover:text-white flex items-center justify-center transition-all duration-300 flex-shrink-0 group-hover:translate-x-1 group-hover:-translate-y-1">
-                          <ArrowUpRight className="w-4 h-4" />
-                        </div>
-                      </div>
-
-                      <p className="text-xs sm:text-sm text-zinc-400 line-clamp-2 mb-4 leading-relaxed font-normal">
-                        {project.description}
-                      </p>
-                    </div>
-
-                    {/* Tools pill tags */}
-                    <div className="flex flex-wrap items-center gap-1.5 pt-3 border-t border-white/5">
-                      {project.tools.map((t) => (
-                        <span
-                          key={t}
-                          className="font-mono text-[10px] text-zinc-400 bg-white/5 px-2 py-0.5 border border-white/5"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
+                  {/* Top Left: Number Badge */}
+                  <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-3 py-1 border border-white/10 font-mono text-xs font-bold text-white">
+                    <span className="text-[#E11D2E]">{project.number}</span>
+                    <span className="text-zinc-500">/</span>
+                    <span className="text-zinc-400">{project.category}</span>
                   </div>
 
-                  {/* Red bottom accent border highlight */}
-                  <div className="h-[2px] w-0 group-hover:w-full bg-[#E11D2E] transition-all duration-500 shadow-[0_0_8px_#E11D2E]" />
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </motion.div>
+                  {/* Top Right: Year & Duration */}
+                  <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-2.5 py-1 border border-white/10 font-mono text-[11px] text-zinc-300">
+                    <span>{project.year}</span>
+                  </div>
+
+                  {/* Center Hover Play Icon Prompt */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                    <div className="w-14 h-14 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] transform group-hover:scale-110 transition-transform duration-300">
+                      <Play className="w-6 h-6 ml-1 fill-white" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Card Bottom Meta */}
+                <div className="p-6 flex flex-col justify-between flex-grow border-t border-white/5">
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-2">
+                      <h3 className="font-heading text-3xl sm:text-4xl uppercase tracking-wide text-white group-hover:text-zinc-100 transition-colors">
+                        {project.title}
+                      </h3>
+                      <div className="w-9 h-9 rounded-full bg-white/5 group-hover:bg-[#E11D2E] text-zinc-400 group-hover:text-white flex items-center justify-center transition-all duration-300 flex-shrink-0 group-hover:translate-x-1 group-hover:-translate-y-1">
+                        <ArrowUpRight className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-zinc-400 line-clamp-2 mb-4 leading-relaxed font-normal">
+                      {project.description}
+                    </p>
+                  </div>
+
+                  {/* Tools pill tags */}
+                  <div className="flex flex-wrap items-center gap-1.5 pt-3 border-t border-white/5">
+                    {project.tools.map((t) => (
+                      <span
+                        key={t}
+                        className="font-mono text-[10px] text-zinc-400 bg-white/5 px-2 py-0.5 border border-white/5"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Red bottom accent border highlight */}
+                <div className="h-[2px] w-0 group-hover:w-full bg-[#E11D2E] transition-all duration-500 shadow-[0_0_8px_#E11D2E]" />
+              </div>
+            );
+          })}
+        </div>
 
         {/* Client / Brand Logo Strip Marquee */}
-        <div className="mt-24 pt-12 border-t border-white/10">
+        <div data-build="repeated" className="mt-24 pt-12 border-t border-white/10">
           <div className="flex items-center justify-between mb-8">
             <span className="font-mono text-xs uppercase tracking-[0.25em] text-zinc-500">
               TRUSTED BY DIRECTORS &amp; STUDIOS
@@ -196,16 +181,14 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
                   key={`${client.name}-${idx}`}
                   className="mx-8 sm:mx-14 group flex flex-col items-center cursor-default select-none"
                 >
-                  <DesignFrame tag="Logo">
-                    <div className="flex flex-col items-center px-3 py-1">
-                      <span className="font-heading text-3xl sm:text-5xl uppercase tracking-widest text-zinc-600 group-hover:text-white transition-colors duration-300">
-                        {client.name}
-                      </span>
-                      <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-600 group-hover:text-[#E11D2E] transition-colors duration-300">
-                        {client.tagline}
-                      </span>
-                    </div>
-                  </DesignFrame>
+                  <div className="flex flex-col items-center px-3 py-1">
+                    <span className="font-heading text-3xl sm:text-5xl uppercase tracking-widest text-zinc-600 group-hover:text-white transition-colors duration-300">
+                      {client.name}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-600 group-hover:text-[#E11D2E] transition-colors duration-300">
+                      {client.tagline}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>

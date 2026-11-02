@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import { Film, Sparkles, Palette, Layers, ArrowUpRight } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
 
@@ -26,7 +25,7 @@ export const Services: React.FC = () => {
 
         {/* Section Heading */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div>
+          <div data-build="heading">
             <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl tracking-tight uppercase font-black text-white">
               WHAT I BRING<span className="text-[#E11D2E]">.</span>
             </h2>
@@ -38,13 +37,10 @@ export const Services: React.FC = () => {
 
         {/* Row of 4 Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {services.map((service, index) => (
-            <motion.div
+          {services.map((service) => (
+            <div
               key={service.id}
-              initial={{ opacity: 0, y: 25 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.45, delay: index * 0.1 }}
+              data-build="repeated"
               className="group relative bg-[#121214] border border-white/10 hover:border-[#E11D2E]/60 p-8 rounded-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(225,29,46,0.2)]"
             >
               {/* Corner crosshair */}
@@ -77,11 +73,10 @@ export const Services: React.FC = () => {
                 <span>INQUIRE SERVICE</span>
                 <ArrowUpRight className="w-4 h-4 text-[#E11D2E] transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1" />
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
     </section>
   );
 };
-

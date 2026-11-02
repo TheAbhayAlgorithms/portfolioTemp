@@ -46,14 +46,14 @@ export const Testimonials: React.FC = () => {
           </span>
         </div>
 
-        <div className="text-center mb-14">
+        <div data-build="heading" className="text-center mb-14">
           <h2 className="font-heading text-5xl sm:text-7xl tracking-tight uppercase font-black text-white">
             TESTIMONIALS<span className="text-[#E11D2E]">.</span>
           </h2>
         </div>
 
         {/* Carousel Card Container */}
-        <div className="relative bg-[#121214] border border-white/10 p-8 sm:p-14 rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
+        <div data-build="card" className="relative bg-[#121214] border border-white/10 p-8 sm:p-14 rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
           {/* Subtle Quote Icon Watermark */}
           <Quote className="absolute top-6 left-6 w-16 h-16 text-white/5 pointer-events-none" />
 
@@ -110,7 +110,7 @@ export const Testimonials: React.FC = () => {
                 <button
                   key={idx}
                   onClick={() => setCurrentIndex(idx)}
-                  className={`h-1.5 transition-all duration-300 rounded-full ${
+                  className={`h-1.5 transition-all duration-300 rounded-full cursor-pointer ${
                     currentIndex === idx
                       ? 'w-8 bg-[#E11D2E] shadow-[0_0_8px_#E11D2E]'
                       : 'w-2 bg-white/20 hover:bg-white/40'
@@ -125,7 +125,7 @@ export const Testimonials: React.FC = () => {
               <button
                 type="button"
                 onClick={handlePrev}
-                className="w-10 h-10 rounded border border-white/10 hover:border-white/30 text-zinc-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded border border-white/10 hover:border-white/30 text-zinc-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Previous testimonial"
               >
                 <ChevronLeft className="w-5 h-5" />
@@ -133,7 +133,7 @@ export const Testimonials: React.FC = () => {
               <button
                 type="button"
                 onClick={handleNext}
-                className="w-10 h-10 rounded border border-white/10 hover:border-white/30 text-zinc-300 hover:text-white flex items-center justify-center transition-colors"
+                className="w-10 h-10 rounded border border-white/10 hover:border-white/30 text-zinc-300 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
                 aria-label="Next testimonial"
               >
                 <ChevronRight className="w-5 h-5" />
@@ -145,4 +145,3 @@ export const Testimonials: React.FC = () => {
     </section>
   );
 };
-

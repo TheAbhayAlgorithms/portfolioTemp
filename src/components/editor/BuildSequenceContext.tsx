@@ -171,119 +171,110 @@ export const BuildSequenceProvider: React.FC<{ children: React.ReactNode }> = ({
 
     // Full scripted director for desktop
     const scriptSteps = [
-      // Step 1: Canvas start (0s)
+      // Step 1: Canvas start (0.05s)
       {
-        delay: 400,
+        delay: 50,
         run: () => {
-          setProgress(5);
+          setProgress(10);
           moveCursor('Maya', 15, 6, 'drawFrame navbar');
         },
       },
-      // Step 2: Navbar frame drawn (0.8s)
+      // Step 2: Navbar frame drawn (0.45s)
       {
-        delay: 900,
+        delay: 450,
         run: () => {
-          setProgress(12);
+          setProgress(20);
           markElementBuilt('nav-bar');
           moveCursor('Aria', 8, 5, 'placeText logo', true);
         },
       },
-      // Step 3: Logo typed (1.6s)
+      // Step 3: Logo typed & links duplicated (0.9s)
       {
-        delay: 1600,
+        delay: 900,
         run: () => {
-          setProgress(18);
+          setProgress(28);
           markElementBuilt('nav-logo');
+          markElementBuilt('nav-links');
+          markElementBuilt('nav-hire');
           moveCursor('Dev', 50, 5, 'duplicate links', false);
           moveCursor('Sam', 88, 5, 'colorFill #E11D2E', true);
         },
       },
-      // Step 4: Navbar completed, Hero greeting (2.4s)
+      // Step 4: Navbar completed, Hero greeting (1.4s)
       {
-        delay: 2400,
+        delay: 1400,
         run: () => {
-          setProgress(25);
-          markElementBuilt('nav-links');
-          markElementBuilt('nav-hire');
+          setProgress(38);
+          markElementBuilt('hero-greeting');
+          markElementBuilt('hero-bg-text');
           moveCursor('Aria', 25, 22, 'placeText "Hello, I\'m"', true);
         },
       },
-      // Step 5: Huge "PORTFOLIO" placed & Name typed (3.4s)
+      // Step 5: Huge "PORTFOLIO" placed & Name typed (2.0s)
       {
-        delay: 3400,
+        delay: 2000,
         run: () => {
-          setProgress(35);
-          markElementBuilt('hero-greeting');
-          markElementBuilt('hero-bg-text');
+          setProgress(50);
+          markElementBuilt('hero-name');
           moveCursor('Dev', 28, 30, 'placeText "ALEX MERCER"', true);
           moveCursor('Kai', 75, 35, 'drawFrame 420x560', false);
           setSnapGuides({ x: 28, spacing: '48px' });
         },
       },
-      // Step 6: Cutout portrait dropped & red rim glow wiped (4.5s)
+      // Step 6: Cutout portrait dropped & red rim glow wiped (2.7s)
       {
-        delay: 4500,
+        delay: 2700,
         run: () => {
-          setProgress(46);
+          setProgress(65);
           setSnapGuides(null);
-          markElementBuilt('hero-name');
+          markElementBuilt('hero-portrait');
           moveCursor('Sam', 75, 42, 'dropImage 4K RAW', true);
           moveCursor('Maya', 70, 38, 'colorFill red-glow', false);
         },
       },
-      // Step 7: Role tags & buttons aligned (5.6s)
+      // Step 7: Role tags & buttons aligned (3.4s)
       {
-        delay: 5600,
+        delay: 3400,
         run: () => {
-          setProgress(58);
-          markElementBuilt('hero-portrait');
+          setProgress(78);
+          markElementBuilt('hero-tags');
+          markElementBuilt('hero-buttons');
           moveCursor('Dev', 24, 40, 'dragMove [EDITOR & VFX]', false);
           moveCursor('Aria', 22, 50, 'drawFrame Button', true);
           moveCursor('Kai', 35, 50, 'drawFrame Button', true);
           setSnapGuides({ x: 22, y: 50, spacing: '16px' });
         },
       },
-      // Step 8: Stats stamped & Marquee line drawn (6.8s)
+      // Step 8: Stats stamped & Marquee line drawn (4.1s)
       {
-        delay: 6800,
+        delay: 4100,
         run: () => {
-          setProgress(70);
+          setProgress(88);
           setSnapGuides(null);
-          markElementBuilt('hero-tags');
-          markElementBuilt('hero-buttons');
           markElementBuilt('hero-stats');
+          markElementBuilt('hero-marquee');
           moveCursor('Sam', 85, 40, 'duplicate stats', true);
           moveCursor('Kai', 50, 62, 'drawLine software-strip', true);
         },
       },
-      // Step 9: Marquee strip active (8.0s)
+      // Step 9: Selected Work cards & client logos stamped (4.7s)
       {
-        delay: 8000,
+        delay: 4700,
         run: () => {
-          setProgress(85);
-          markElementBuilt('hero-marquee');
-          // Cursors move down towards work section
+          setProgress(96);
+          markElementBuilt('work-section');
+          markElementBuilt('work-cards');
+          markElementBuilt('work-logos');
           moveCursor('Aria', 30, 75, 'drawFrame Card 01', true);
           moveCursor('Dev', 60, 75, 'drawFrame Card 02', true);
           moveCursor('Maya', 80, 75, 'drawFrame Card 03', true);
         },
       },
-      // Step 10: Selected Work stamped (9.4s)
+      // Step 10: Finale - All cursors converge and unveil (5.4s)
       {
-        delay: 9400,
-        run: () => {
-          setProgress(94);
-          markElementBuilt('work-section');
-          markElementBuilt('work-cards');
-          markElementBuilt('work-logos');
-        },
-      },
-      // Step 11: Finale - All cursors converge and unveil (11.0s)
-      {
-        delay: 11000,
+        delay: 5400,
         run: () => {
           setProgress(100);
-          // Converge to center
           moveCursor('Aria', 50, 50, 'Finished', false);
           moveCursor('Dev', 50, 50, 'Finished', false);
           moveCursor('Maya', 50, 50, 'Finished', false);
@@ -292,7 +283,7 @@ export const BuildSequenceProvider: React.FC<{ children: React.ReactNode }> = ({
 
           setTimeout(() => {
             skipBuild();
-          }, 800);
+          }, 600);
         },
       },
     ];
@@ -341,10 +332,24 @@ export const BuildSequenceProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-export const useBuildSequence = () => {
+export const useBuildSequence = (): BuildSequenceContextType => {
   const context = useContext(BuildSequenceContext);
   if (!context) {
-    throw new Error('useBuildSequence must be used within a BuildSequenceProvider');
+    return {
+      isBuilding: false,
+      isCompleted: true,
+      progress: 100,
+      currentStep: null,
+      builtElements: new Set(),
+      isElementBuilt: () => true,
+      ghostCursors: INITIAL_CURSORS,
+      snapGuides: null,
+      activeDimensions: null,
+      skipBuild: () => {},
+      replayBuild: () => {},
+      registerBuildTrigger: () => {},
+      activeSection: 'hero',
+    };
   }
   return context;
 };

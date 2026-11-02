@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useSmoothScroll } from './hooks/useSmoothScroll.ts';
 import { portfolioContent, ProjectItem } from './content.ts';
-import { Preloader } from './components/Preloader.tsx';
 import { EditorOverlay } from './components/editor/EditorOverlay.tsx';
+import { BuildSequenceProvider } from './components/editor/BuildSequenceContext.tsx';
 import { ScrollProgressBar } from './components/ScrollProgressBar.tsx';
 import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
@@ -17,13 +17,11 @@ import { Contact } from './components/Contact.tsx';
 import { Footer } from './components/Footer.tsx';
 import { LightboxModal } from './components/LightboxModal.tsx';
 
-export function App() {
+export function AppContent() {
   // Initialize Lenis Smooth Scroll
   useSmoothScroll();
 
-  const [preloaderDone, setPreloaderDone] = useState(false);
   const [activeModalProject, setActiveModalProject] = useState<ProjectItem | null>(null);
-
   const { personal } = portfolioContent;
 
   return (
@@ -34,22 +32,13 @@ export function App() {
       {/* 2. Top Red Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* 3. Design-Editor Overlay Layer (Real Cursor 'You', Ghost Cursors, Hover Frames & Toolbar) */}
+      {/* 3. Design-Editor Overlay & Live Build Sequence Layer */}
       <EditorOverlay />
 
-      {/* 4. Preloader (Curtain wipe intro) */}
-      {!preloaderDone && (
-        <Preloader
-          onComplete={() => setPreloaderDone(true)}
-          name={personal.name.toUpperCase()}
-          role={personal.role.toUpperCase()}
-        />
-      )}
-
-      {/* 5. Sticky Blurred Glass Navbar */}
+      {/* 4. Sticky Blurred Glass Navbar */}
       <Navbar firstName={personal.firstName.toUpperCase()} />
 
-      {/* 6. Page Structure in Requested Sequence */}
+      {/* 5. Page Structure in Requested Sequence */}
       <main id="main-content">
         {/* A. Hero Section */}
         <Hero />
@@ -82,12 +71,20 @@ export function App() {
       {/* J. Footer */}
       <Footer />
 
-      {/* 7. Lightbox Modal for Projects & Showreel */}
+      {/* 6. Lightbox Modal for Projects & Showreel */}
       <LightboxModal
         project={activeModalProject}
         onClose={() => setActiveModalProject(null)}
       />
     </div>
+  );
+}
+
+export function App() {
+  return (
+    <BuildSequenceProvider>
+      <AppContent />
+    </BuildSequenceProvider>
   );
 }
 

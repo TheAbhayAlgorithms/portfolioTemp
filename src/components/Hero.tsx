@@ -85,7 +85,7 @@ export const Hero: React.FC = () => {
       {/* HUGE OUTLINED BACKGROUND TEXT "PORTFOLIO" spanning width */}
       <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0 transition-all duration-700 ${
-          isBuilding && !isCompleted && !isElementBuilt('hero-bg-text') ? 'opacity-0 scale-90' : 'opacity-20 scale-100'
+          isBuilding && !isCompleted && !isElementBuilt('hero-bg-text') ? 'opacity-5 scale-90' : 'opacity-20 scale-100'
         }`}
       >
         <h2 className="font-heading text-[18vw] leading-none uppercase tracking-tighter text-stroke-white whitespace-nowrap">
@@ -105,7 +105,7 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className={`flex items-center gap-3 mb-2 transition-all duration-500 ${
-                isBuilding && !isCompleted && !isElementBuilt('hero-greeting') ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
+                isBuilding && !isCompleted && !isElementBuilt('hero-greeting') ? 'opacity-30 -translate-x-4' : 'opacity-100 translate-x-0'
               }`}
             >
               <span className="font-script text-3xl sm:text-4xl text-[#FF2D3F] -rotate-2 inline-block">
@@ -138,7 +138,7 @@ export const Hero: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
               className={`flex flex-wrap items-center gap-3 mb-6 transition-all duration-500 ${
-                isBuilding && !isCompleted && !isElementBuilt('hero-tags') ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'
+                isBuilding && !isCompleted && !isElementBuilt('hero-tags') ? 'opacity-30 -translate-y-2' : 'opacity-100 translate-y-0'
               }`}
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-white font-mono text-xs sm:text-sm uppercase tracking-widest">
@@ -205,7 +205,7 @@ export const Hero: React.FC = () => {
           <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end">
             
             {/* Cutout Portrait Container with Parallax and Design Editor Selection Frame */}
-            <DesignFrame tag="Image" alwaysVisible={true} className="w-full max-w-[420px]">
+            <DesignFrame tag="Image" alwaysVisible={true} buildId="hero-portrait" dimensions="420 × 560" className="w-full max-w-[420px]">
               <motion.div
                 style={{ x: portraitX, y: portraitY }}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -246,7 +246,9 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, x: 25 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="hidden sm:flex flex-col gap-4 absolute -right-4 lg:-right-8 top-1/2 -translate-y-1/2 z-30 bg-[#121214]/90 backdrop-blur-md border border-white/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.8)]"
+              className={`hidden sm:flex flex-col gap-4 absolute -right-4 lg:-right-8 top-1/2 -translate-y-1/2 z-30 bg-[#121214]/90 backdrop-blur-md border border-white/10 p-4 shadow-[0_10px_30px_rgba(0,0,0,0.8)] transition-all duration-500 ${
+                isBuilding && !isCompleted && !isElementBuilt('hero-stats') ? 'opacity-30 translate-x-4' : 'opacity-100 translate-x-0'
+              }`}
             >
               {personal.stats.slice(0, 2).map((st, idx) => (
                 <div key={st.label} className="flex flex-col border-b border-white/5 pb-2.5 last:border-b-0 last:pb-0">
@@ -266,7 +268,11 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* Marquee Strip Under Hero Scrolling Skills / Software */}
-      <div className="relative w-full border-t border-b border-white/10 bg-[#121214]/60 py-3.5 overflow-hidden z-20 mt-12">
+      <div
+        className={`relative w-full border-t border-b border-white/10 bg-[#121214]/60 py-3.5 overflow-hidden z-20 mt-12 transition-all duration-700 ${
+          isBuilding && !isCompleted && !isElementBuilt('hero-marquee') ? 'opacity-30 translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
         <div className="flex w-max animate-marquee-slow whitespace-nowrap">
           {[...softwareTicker, ...softwareTicker, ...softwareTicker].map((software, i) => (
             <div key={`${software}-${i}`} className="flex items-center mx-6">

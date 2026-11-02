@@ -38,13 +38,13 @@ export const DesignFrame: React.FC<DesignFrameProps> = ({
       onMouseLeave={() => setIsHovered(false)}
       data-editor-tag={tag}
       data-build={buildId}
-      initial={buildId && isBuilding && !isCompleted ? { opacity: 0, scale: 0.95 } : false}
+      initial={buildId && isBuilding && !isCompleted ? { opacity: 0.25, scale: 0.97 } : false}
       animate={
         isBuilt
-          ? { opacity: 1, scale: 1 }
-          : { opacity: 0, scale: 0.95, pointerEvents: 'none' }
+          ? { opacity: 1, scale: 1, filter: 'blur(0px)' }
+          : { opacity: 0.25, scale: 0.97, filter: 'blur(1px)' }
       }
-      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
 

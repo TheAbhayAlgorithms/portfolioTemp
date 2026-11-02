@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useBuildSequence, GhostCursorName } from './BuildSequenceContext.tsx';
-import { FastForward, Eye, Layers, MousePointer, ShieldCheck } from 'lucide-react';
+import { FastForward, Layers } from 'lucide-react';
 
 export const BuildLayer: React.FC = () => {
   const {

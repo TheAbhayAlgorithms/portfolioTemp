@@ -1,10 +1,12 @@
 import React from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, RotateCcw } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
 import { MagneticButton } from './MagneticButton.tsx';
+import { useBuildSequence } from './editor/BuildSequenceContext.tsx';
 
 export const Footer: React.FC = () => {
   const { personal } = portfolioContent;
+  const { replayBuild } = useBuildSequence();
 
   const scrollToTop = () => {
     window.scrollTo({
@@ -17,24 +19,37 @@ export const Footer: React.FC = () => {
     <footer className="relative bg-[#0A0A0B] pt-20 pb-12 overflow-hidden border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col justify-between">
         
-        {/* Top Row: Navigation shortcuts & Back to Top */}
+        {/* Top Row: Navigation shortcuts & Back to Top & Replay Build */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="font-heading text-2xl font-black text-white tracking-widest">
               {personal.name.toUpperCase()}
             </span>
-            <span className="w-2 h-2 rounded-full bg-[#E11D2E] shadow-[0_0_6px_#FF2D3F]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#E11D2E] shadow-[0_0_8px_#FF2D3F]" />
           </div>
 
-          <MagneticButton onClick={scrollToTop}>
+          <div className="flex items-center gap-3">
+            {/* Replay Live Build Sequence Button */}
             <button
               type="button"
-              className="group flex items-center gap-3 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#E11D2E]/40 text-xs font-mono uppercase tracking-wider text-zinc-300 hover:text-white transition-all rounded-sm"
+              onClick={replayBuild}
+              title="Watch the live Figma-style collaborative build sequence again"
+              className="group flex items-center gap-2 px-4 py-2.5 bg-white/5 hover:bg-[#2F6BFF]/20 border border-white/10 hover:border-[#2F6BFF] text-xs font-mono uppercase tracking-wider text-zinc-300 hover:text-white transition-all rounded-sm cursor-pointer shadow-xs active:scale-95"
             >
-              <span>BACK TO TOP</span>
-              <ArrowUp className="w-4 h-4 text-[#E11D2E] transition-transform duration-300 group-hover:-translate-y-1" />
+              <RotateCcw className="w-3.5 h-3.5 text-[#2F6BFF] transition-transform duration-500 group-hover:-rotate-180" />
+              <span>REPLAY BUILD</span>
             </button>
-          </MagneticButton>
+
+            <MagneticButton onClick={scrollToTop}>
+              <button
+                type="button"
+                className="group flex items-center gap-3 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-[#E11D2E]/40 text-xs font-mono uppercase tracking-wider text-zinc-300 hover:text-white transition-all rounded-sm"
+              >
+                <span>BACK TO TOP</span>
+                <ArrowUp className="w-4 h-4 text-[#E11D2E] transition-transform duration-300 group-hover:-translate-y-1" />
+              </button>
+            </MagneticButton>
+          </div>
         </div>
 
         {/* Center Giant Outlined Name Typography */}

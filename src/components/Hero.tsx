@@ -5,10 +5,12 @@ import { portfolioContent } from '../content.ts';
 import { MagneticButton } from './MagneticButton.tsx';
 import { DesignFrame } from './editor/DesignFrame.tsx';
 import { TextCaret } from './editor/TextCaret.tsx';
+import { useBuildSequence } from './editor/BuildSequenceContext.tsx';
 
 export const Hero: React.FC = () => {
   const { personal, softwareTicker } = portfolioContent;
   const heroRef = useRef<HTMLDivElement>(null);
+  const { isElementBuilt, isBuilding, isCompleted } = useBuildSequence();
 
   // Mouse Parallax Effect
   const mouseX = useMotionValue(0);
@@ -81,8 +83,12 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* HUGE OUTLINED BACKGROUND TEXT "PORTFOLIO" spanning width */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0">
-        <h2 className="font-heading text-[18vw] leading-none uppercase tracking-tighter text-stroke-white opacity-20 whitespace-nowrap">
+      <div
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-center pointer-events-none select-none z-0 transition-all duration-700 ${
+          isBuilding && !isCompleted && !isElementBuilt('hero-bg-text') ? 'opacity-0 scale-90' : 'opacity-20 scale-100'
+        }`}
+      >
+        <h2 className="font-heading text-[18vw] leading-none uppercase tracking-tighter text-stroke-white whitespace-nowrap">
           PORTFOLIO
         </h2>
       </div>
@@ -98,7 +104,9 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center gap-3 mb-2"
+              className={`flex items-center gap-3 mb-2 transition-all duration-500 ${
+                isBuilding && !isCompleted && !isElementBuilt('hero-greeting') ? 'opacity-0 -translate-x-4' : 'opacity-100 translate-x-0'
+              }`}
             >
               <span className="font-script text-3xl sm:text-4xl text-[#FF2D3F] -rotate-2 inline-block">
                 Hello, I'm
@@ -108,7 +116,7 @@ export const Hero: React.FC = () => {
 
             {/* Huge Name in Big White Caps with Mask Reveal and Design Editor Selection Frame */}
             <div className="overflow-hidden mb-4">
-              <DesignFrame tag="Heading" defaultVisible={true}>
+              <DesignFrame tag="Heading" defaultVisible={true} buildId="hero-name" dimensions="840 × 120">
                 <motion.h1
                   initial={{ y: '100%' }}
                   animate={{ y: 0 }}
@@ -129,7 +137,9 @@ export const Hero: React.FC = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-wrap items-center gap-3 mb-6"
+              className={`flex flex-wrap items-center gap-3 mb-6 transition-all duration-500 ${
+                isBuilding && !isCompleted && !isElementBuilt('hero-tags') ? 'opacity-0 -translate-y-3' : 'opacity-100 translate-y-0'
+              }`}
             >
               <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-white font-mono text-xs sm:text-sm uppercase tracking-widest">
                 <Film className="w-3.5 h-3.5 text-[#E11D2E]" />
@@ -162,8 +172,8 @@ export const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap items-center gap-4"
             >
-              {/* View Work (Red Filled) with Selection Frame */}
-              <DesignFrame tag="Button">
+              {/* View Work (Red Filled) with Selection Frame and Build Id */}
+              <DesignFrame tag="Button" buildId="hero-buttons">
                 <MagneticButton href="#work" onClick={() => {
                   const el = document.querySelector('#work');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
 import { GhostCursors } from './GhostCursors.tsx';
 import { EditorToolbar } from './EditorToolbar.tsx';
+import { BuildLayer } from './BuildLayer.tsx';
+import { useBuildSequence } from './BuildSequenceContext.tsx';
 
 interface HoverBox {
   x: number;
@@ -17,6 +19,8 @@ export const EditorOverlay: React.FC = () => {
   const [hoverBox, setHoverBox] = useState<HoverBox | null>(null);
   const [hoverText, setHoverText] = useState<string>('');
   const [isMouseDown, setIsMouseDown] = useState(false);
+
+  const { isBuilding, isCompleted } = useBuildSequence();
 
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
@@ -75,10 +79,14 @@ export const EditorOverlay: React.FC = () => {
         return;
       }
 
-      // Check if hovering over editor toolbar itself - ignore frame
-      if (target.closest('aside[aria-label="Design Editor Toolbar"]')) {
+      // Check if hovering over editor toolbar or skip button - ignore frame
+      if (
+        target.closest('aside[aria-label="Design Editor Toolbar"]') ||
+        target.closest('button[onClick*="skipBuild"]') ||
+        target.closest('nav')
+      ) {
         setHoverBox(null);
-        setHoverText('Toolbar');
+        setHoverText('');
         return;
       }
 
@@ -113,7 +121,6 @@ export const EditorOverlay: React.FC = () => {
     };
 
     const handleScroll = () => {
-      // Re-evaluate target or clear on fast scroll
       setHoverBox(null);
     };
 
@@ -140,19 +147,18 @@ export const EditorOverlay: React.FC = () => {
   }, [cursorX, cursorY, isCursorVisible]);
 
   if (isTouch) {
-    return (
-      <div className="relative pointer-events-none">
-        <GhostCursors />
-      </div>
-    );
+    return isBuilding ? <BuildLayer /> : null;
   }
 
   return (
     <div className="relative pointer-events-none z-40">
-      {/* 1. Ghost Collaborator Cursors (Aria, Dev, Maya, Leo, Kai) */}
-      <GhostCursors />
+      {/* 1. Live Figma-Style Build Layer during construction */}
+      {isBuilding && !isCompleted && <BuildLayer />}
 
-      {/* 2. Dynamic Hover Selection Frame that locks onto whatever the visitor hovers */}
+      {/* 2. Idle Ghost Collaborator Cursors once site is built */}
+      {isCompleted && <GhostCursors />}
+
+      {/* 3. Dynamic Hover Selection Frame that locks onto whatever the visitor hovers */}
       <AnimatePresence>
         {hoverBox && (
           <motion.div
@@ -195,7 +201,7 @@ export const EditorOverlay: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* 3. Real Mouse Pointer: Crisp Red Arrow + "You" Name Chip */}
+      {/* 4. Real Mouse Pointer: Crisp Red Arrow + "You" Name Chip */}
       {isCursorVisible && (
         <motion.div
           className="fixed top-0 left-0 pointer-events-none z-[9999]"
@@ -241,7 +247,7 @@ export const EditorOverlay: React.FC = () => {
         </motion.div>
       )}
 
-      {/* 4. Floating Editor Toolbar at Bottom Center */}
+      {/* 5. Floating Editor Toolbar at Bottom Center */}
       <div className="pointer-events-auto">
         <EditorToolbar />
       </div>

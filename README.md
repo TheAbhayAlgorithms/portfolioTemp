@@ -155,3 +155,4 @@ public/assets/
 - **Lenis 1.1** (Inertial smooth scrolling)
 - **GSAP 3.12 + ScrollTrigger** (Dynamic ticker & counter animations)
 - **Lucide React** (Crisp vector icons)
+

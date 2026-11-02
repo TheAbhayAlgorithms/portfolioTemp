@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Quote, Wrench } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
+import { DesignFrame } from './editor/DesignFrame.tsx';
+import { TextCaret } from './editor/TextCaret.tsx';
 
 export const About: React.FC = () => {
   const { about, personal } = portfolioContent;
@@ -20,11 +22,13 @@ export const About: React.FC = () => {
           <span className="h-[1px] w-12 bg-white/10" />
         </div>
 
-        {/* Section Heading: NOT JUST VISUALS. A WAY OF STORYTELLING. */}
+        {/* Section Heading: NOT JUST VISUALS. A WAY OF STORYTELLING. with live text editor caret */}
         <div className="mb-16">
           <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl tracking-tight uppercase font-black leading-[0.92]">
             <span className="text-white">{about.headingPart1} </span>
-            <span className="text-[#E11D2E]">{about.headingPart2}</span>
+            <TextCaret user="Dev" color="#FF3B81">
+              <span className="text-[#E11D2E]">{about.headingPart2}</span>
+            </TextCaret>
           </h2>
         </div>
 
@@ -112,32 +116,36 @@ export const About: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Tall Red Quote Card */}
-          <div className="lg:col-span-3 relative flex flex-col justify-between p-8 bg-gradient-to-b from-[#E11D2E] to-[#B01221] text-white rounded-sm shadow-[0_20px_45px_rgba(225,29,46,0.35)] overflow-hidden">
-            {/* Background Giant Quote Watermark */}
-            <Quote className="absolute -bottom-8 -right-8 w-44 h-44 text-black/15 pointer-events-none" />
+          {/* Right Column: Tall Red Quote Card with Design Editor Selection Frame */}
+          <div className="lg:col-span-3">
+            <DesignFrame tag="Card" alwaysVisible={true} className="h-full">
+              <div className="relative flex flex-col justify-between p-8 bg-gradient-to-b from-[#E11D2E] to-[#B01221] text-white rounded-sm shadow-[0_20px_45px_rgba(225,29,46,0.35)] overflow-hidden h-full">
+                {/* Background Giant Quote Watermark */}
+                <Quote className="absolute -bottom-8 -right-8 w-44 h-44 text-black/15 pointer-events-none" />
 
-            <div>
-              {/* Quote Mark Icon */}
-              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-8 backdrop-blur-sm">
-                <Quote className="w-6 h-6 text-white" />
-              </div>
+                <div>
+                  {/* Quote Mark Icon */}
+                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-8 backdrop-blur-sm">
+                    <Quote className="w-6 h-6 text-white" />
+                  </div>
 
-              {/* Quote Text */}
-              <blockquote className="font-heading text-3xl sm:text-4xl uppercase leading-tight tracking-wide text-white mb-6">
-                "{personal.quoteCard.quote}"
-              </blockquote>
-            </div>
+                  {/* Quote Text */}
+                  <blockquote className="font-heading text-3xl sm:text-4xl uppercase leading-tight tracking-wide text-white mb-6">
+                    "{personal.quoteCard.quote}"
+                  </blockquote>
+                </div>
 
-            {/* Signature in Script Font */}
-            <div className="pt-6 border-t border-white/20 relative z-10">
-              <div className="font-script text-3xl sm:text-4xl text-white font-bold mb-1 -rotate-3">
-                {personal.quoteCard.author}
+                {/* Signature in Script Font */}
+                <div className="pt-6 border-t border-white/20 relative z-10">
+                  <div className="font-script text-3xl sm:text-4xl text-white font-bold mb-1 -rotate-3">
+                    {personal.quoteCard.author}
+                  </div>
+                  <div className="font-mono text-xs uppercase tracking-widest text-white/80">
+                    {personal.quoteCard.role}
+                  </div>
+                </div>
               </div>
-              <div className="font-mono text-xs uppercase tracking-widest text-white/80">
-                {personal.quoteCard.role}
-              </div>
-            </div>
+            </DesignFrame>
           </div>
 
         </div>

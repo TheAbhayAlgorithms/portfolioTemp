@@ -16,3 +16,4 @@ export const ScrollProgressBar: React.FC = () => {
     />
   );
 };
+

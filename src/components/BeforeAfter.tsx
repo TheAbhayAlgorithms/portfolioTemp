@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { Sliders } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
+import { DesignFrame } from './editor/DesignFrame.tsx';
 
 export const BeforeAfter: React.FC = () => {
   const { beforeAfterComparisons, processSteps } = portfolioContent;
@@ -82,76 +83,78 @@ export const BeforeAfter: React.FC = () => {
         {/* Main Content: Interactive Slider + Process Steps */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left Column: Interactive Before / After Comparison Slider */}
+          {/* Left Column: Interactive Before / After Comparison Slider with Design Editor Frame */}
           <div className="lg:col-span-8 flex flex-col gap-4">
-            <div
-              ref={containerRef}
-              onMouseDown={(e) => {
-                setIsDragging(true);
-                handleMove(e.clientX);
-              }}
-              onMouseUp={() => setIsDragging(false)}
-              onMouseMove={handleMouseMove}
-              onTouchMove={handleTouchMove}
-              className="relative w-full aspect-[16/9] bg-black rounded-sm overflow-hidden select-none cursor-ew-resize border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
-            >
-              {/* FINAL Image (Full width background) */}
-              <img
-                src={activeComparison.finalImage}
-                alt="Final graded VFX frame"
-                className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
-                loading="lazy"
-              />
-
-              {/* RAW Image (Clipped from left using sliderPosition %) */}
+            <DesignFrame tag="Slider" alwaysVisible={true} className="w-full">
               <div
-                className="absolute inset-0 overflow-hidden"
-                style={{ width: `${sliderPosition}%` }}
+                ref={containerRef}
+                onMouseDown={(e) => {
+                  setIsDragging(true);
+                  handleMove(e.clientX);
+                }}
+                onMouseUp={() => setIsDragging(false)}
+                onMouseMove={handleMouseMove}
+                onTouchMove={handleTouchMove}
+                className="relative w-full aspect-[16/9] bg-black rounded-sm overflow-hidden select-none cursor-ew-resize border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.8)]"
               >
+                {/* FINAL Image (Full width background) */}
                 <img
-                  src={activeComparison.rawImage}
-                  alt="Raw unedited cinema frame"
-                  className="absolute inset-0 w-full h-full object-cover max-w-none select-none pointer-events-none"
-                  style={{
-                    // Prevent image from stretching when container is clipped
-                    width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%',
-                    height: '100%'
-                  }}
+                  src={activeComparison.finalImage}
+                  alt="Final graded VFX frame"
+                  className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
                   loading="lazy"
                 />
 
-                {/* RAW Badge */}
-                <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/85 backdrop-blur-md px-3 py-1 border border-white/15 font-mono text-xs font-bold text-zinc-300">
-                  <span className="w-2 h-2 rounded-full bg-zinc-400" />
-                  <span>{activeComparison.rawLabel}</span>
-                </div>
-              </div>
+                {/* RAW Image (Clipped from left using sliderPosition %) */}
+                <div
+                  className="absolute inset-0 overflow-hidden"
+                  style={{ width: `${sliderPosition}%` }}
+                >
+                  <img
+                    src={activeComparison.rawImage}
+                    alt="Raw unedited cinema frame"
+                    className="absolute inset-0 w-full h-full object-cover max-w-none select-none pointer-events-none"
+                    style={{
+                      // Prevent image from stretching when container is clipped
+                      width: containerRef.current ? `${containerRef.current.clientWidth}px` : '100%',
+                      height: '100%'
+                    }}
+                    loading="lazy"
+                  />
 
-              {/* FINAL Badge */}
-              <div className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-[#0A0A0B]/85 backdrop-blur-md px-3 py-1 border border-[#E11D2E]/40 font-mono text-xs font-bold text-white shadow-[0_0_15px_rgba(225,29,46,0.3)]">
-                <span className="w-2 h-2 rounded-full bg-[#E11D2E] animate-pulse" />
-                <span className="text-[#FF2D3F]">{activeComparison.finalLabel}</span>
-              </div>
-
-              {/* Vertical Divider Line with Glow */}
-              <div
-                className="absolute top-0 bottom-0 w-[2px] bg-white shadow-[0_0_10px_#E11D2E] z-30"
-                style={{ left: `${sliderPosition}%` }}
-              >
-                {/* Center Drag Handle Bubble */}
-                <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-[#E11D2E] text-white flex items-center justify-center border-2 border-white shadow-[0_0_20px_#FF2D3F]">
-                  <div className="flex items-center gap-1 font-mono text-xs font-black select-none">
-                    <span>‹</span>
-                    <span>›</span>
+                  {/* RAW Badge */}
+                  <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-black/85 backdrop-blur-md px-3 py-1 border border-white/15 font-mono text-xs font-bold text-zinc-300">
+                    <span className="w-2 h-2 rounded-full bg-zinc-400" />
+                    <span>{activeComparison.rawLabel}</span>
                   </div>
                 </div>
-              </div>
 
-              {/* Bottom Instructions Prompt */}
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/75 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 font-mono text-[11px] text-zinc-400 flex items-center gap-2">
-                <span>◀ DRAG TO COMPARE ▶</span>
+                {/* FINAL Badge */}
+                <div className="absolute top-4 right-4 z-20 flex items-center gap-2 bg-[#0A0A0B]/85 backdrop-blur-md px-3 py-1 border border-[#E11D2E]/40 font-mono text-xs font-bold text-white shadow-[0_0_15px_rgba(225,29,46,0.3)]">
+                  <span className="w-2 h-2 rounded-full bg-[#E11D2E] animate-pulse" />
+                  <span className="text-[#FF2D3F]">{activeComparison.finalLabel}</span>
+                </div>
+
+                {/* Vertical Divider Line with Glow */}
+                <div
+                  className="absolute top-0 bottom-0 w-[2px] bg-white shadow-[0_0_10px_#E11D2E] z-30"
+                  style={{ left: `${sliderPosition}%` }}
+                >
+                  {/* Center Drag Handle Bubble */}
+                  <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-[#E11D2E] text-white flex items-center justify-center border-2 border-white shadow-[0_0_20px_#FF2D3F]">
+                    <div className="flex items-center gap-1 font-mono text-xs font-black select-none">
+                      <span>‹</span>
+                      <span>›</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Instructions Prompt */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 pointer-events-none bg-black/75 backdrop-blur-md px-4 py-1.5 rounded-full border border-white/10 font-mono text-[11px] text-zinc-400 flex items-center gap-2">
+                  <span>◀ DRAG TO COMPARE ▶</span>
+                </div>
               </div>
-            </div>
+            </DesignFrame>
 
             {/* Camera Technical Metadata Specs Strip */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#121214] p-4 border border-white/10 rounded-sm font-mono text-xs">

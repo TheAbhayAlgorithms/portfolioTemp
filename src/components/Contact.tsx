@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, MapPin, Play, Send, CheckCircle2, ArrowRight } from 'lucide-react';
 import { portfolioContent, ProjectItem } from '../content.ts';
 import { MagneticButton } from './MagneticButton.tsx';
+import { DesignFrame } from './editor/DesignFrame.tsx';
 
 interface ContactProps {
   onOpenShowreel: (reelItem: ProjectItem) => void;
@@ -179,42 +180,44 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
           {/* Right Column: Framed Showreel Tile + Working Contact Form */}
           <div className="lg:col-span-7 space-y-8">
             
-            {/* Framed Showreel/Video Tile: MAKE IT FEEL REAL. */}
-            <div
-              onClick={handleLaunchShowreel}
-              data-cursor="PLAY"
-              className="group relative w-full aspect-[21/9] bg-[#121214] border border-white/15 hover:border-[#E11D2E] rounded-sm overflow-hidden cursor-pointer shadow-[0_15px_35px_rgba(0,0,0,0.8)] transition-all duration-500"
-            >
-              {/* Thumbnail background */}
-              <img
-                src="/assets/before-after/cyberpunk-final.jpg"
-                alt="Showreel background preview"
-                className="w-full h-full object-cover opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700"
-              />
+            {/* Framed Showreel/Video Tile with Design Editor Selection Frame */}
+            <DesignFrame tag="Video" alwaysVisible={true} className="w-full">
+              <div
+                onClick={handleLaunchShowreel}
+                data-cursor="PLAY"
+                className="group relative w-full aspect-[21/9] bg-[#121214] border border-white/15 hover:border-[#E11D2E] rounded-sm overflow-hidden cursor-pointer shadow-[0_15px_35px_rgba(0,0,0,0.8)] transition-all duration-500"
+              >
+                {/* Thumbnail background */}
+                <img
+                  src="/assets/before-after/cyberpunk-final.jpg"
+                  alt="Showreel background preview"
+                  className="w-full h-full object-cover opacity-50 group-hover:opacity-75 group-hover:scale-105 transition-all duration-700"
+                />
 
-              {/* Dark Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
+                {/* Dark Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/50 to-transparent" />
 
-              {/* Tile Content */}
-              <div className="absolute inset-0 p-6 sm:p-8 flex items-center justify-between">
-                <div>
-                  <span className="font-mono text-[10px] text-[#FF2D3F] uppercase tracking-[0.25em] font-bold block mb-1">
-                    {contact.showreelTile.tag} • {contact.showreelTile.duration}
-                  </span>
-                  <h3 className="font-heading text-3xl sm:text-5xl uppercase tracking-wider text-white">
-                    {contact.showreelTile.title}
-                  </h3>
-                  <p className="font-mono text-xs text-zinc-400 mt-1">
-                    {contact.showreelTile.subtext}
-                  </p>
-                </div>
+                {/* Tile Content */}
+                <div className="absolute inset-0 p-6 sm:p-8 flex items-center justify-between">
+                  <div>
+                    <span className="font-mono text-[10px] text-[#FF2D3F] uppercase tracking-[0.25em] font-bold block mb-1">
+                      {contact.showreelTile.tag} • {contact.showreelTile.duration}
+                    </span>
+                    <h3 className="font-heading text-3xl sm:text-5xl uppercase tracking-wider text-white">
+                      {contact.showreelTile.title}
+                    </h3>
+                    <p className="font-mono text-xs text-zinc-400 mt-1">
+                      {contact.showreelTile.subtext}
+                    </p>
+                  </div>
 
-                {/* Big Red Play Button */}
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] group-hover:scale-110 transition-transform flex-shrink-0">
-                  <Play className="w-6 h-6 ml-1 fill-white" />
+                  {/* Big Red Play Button */}
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] group-hover:scale-110 transition-transform flex-shrink-0">
+                    <Play className="w-6 h-6 ml-1 fill-white" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </DesignFrame>
 
             {/* Working Contact Form */}
             <div className="bg-[#121214] border border-white/10 p-6 sm:p-8 rounded-sm">
@@ -374,3 +377,4 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
     </section>
   );
 };
+

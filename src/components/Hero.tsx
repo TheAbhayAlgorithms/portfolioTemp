@@ -3,6 +3,8 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowRight, Download, Film, Sparkles } from 'lucide-react';
 import { portfolioContent } from '../content.ts';
 import { MagneticButton } from './MagneticButton.tsx';
+import { DesignFrame } from './editor/DesignFrame.tsx';
+import { TextCaret } from './editor/TextCaret.tsx';
 
 export const Hero: React.FC = () => {
   const { personal, softwareTicker } = portfolioContent;
@@ -104,20 +106,22 @@ export const Hero: React.FC = () => {
               <span className="h-[1px] w-12 bg-[#E11D2E]/40" />
             </motion.div>
 
-            {/* Huge Name in Big White Caps with Mask Reveal */}
+            {/* Huge Name in Big White Caps with Mask Reveal and Design Editor Selection Frame */}
             <div className="overflow-hidden mb-4">
-              <motion.h1
-                initial={{ y: '100%' }}
-                animate={{ y: 0 }}
-                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                className="font-heading text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.88] uppercase tracking-tight font-black text-white"
-              >
-                {personal.name.split(' ')[0]} <br className="hidden sm:block" />
-                <span className="text-zinc-100 hover:text-white transition-colors">
-                  {personal.name.split(' ').slice(1).join(' ')}
-                </span>
-                <span className="text-[#E11D2E] inline-block ml-1">.</span>
-              </motion.h1>
+              <DesignFrame tag="Heading" defaultVisible={true}>
+                <motion.h1
+                  initial={{ y: '100%' }}
+                  animate={{ y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                  className="font-heading text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] leading-[0.88] uppercase tracking-tight font-black text-white"
+                >
+                  {personal.name.split(' ')[0]} <br className="hidden sm:block" />
+                  <span className="text-zinc-100 hover:text-white transition-colors">
+                    {personal.name.split(' ').slice(1).join(' ')}
+                  </span>
+                  <span className="text-[#E11D2E] inline-block ml-1">.</span>
+                </motion.h1>
+              </DesignFrame>
             </div>
 
             {/* Role Tags: EDITOR & VFX ARTIST */}
@@ -138,14 +142,17 @@ export const Hero: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Short 2-line Intro */}
+            {/* Short 2-line Intro with live text editing caret */}
             <motion.p
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
               className="text-base sm:text-lg text-zinc-300 max-w-xl font-normal leading-relaxed mb-8"
             >
-              {personal.shortIntro}
+              <TextCaret user="Aria" color="#00E5FF">
+                Editor and VFX artist
+              </TextCaret>{' '}
+              with 10+ years crafting commercials, short films and music videos. I blend sharp storytelling with cinematic visuals.
             </motion.p>
 
             {/* Two Call to Action Buttons */}
@@ -155,19 +162,21 @@ export const Hero: React.FC = () => {
               transition={{ duration: 0.6, delay: 0.5 }}
               className="flex flex-wrap items-center gap-4"
             >
-              {/* View Work (Red Filled) */}
-              <MagneticButton href="#work" onClick={() => {
-                const el = document.querySelector('#work');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}>
-                <button
-                  type="button"
-                  className="group relative overflow-hidden bg-[#E11D2E] hover:bg-[#FF2D3F] text-white px-8 py-4 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest flex items-center gap-3 shadow-[0_0_25px_rgba(225,29,46,0.4)] hover:shadow-[0_0_35px_rgba(225,29,46,0.7)] transition-all duration-300 active:scale-95"
-                >
-                  <span>VIEW WORK</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
-                </button>
-              </MagneticButton>
+              {/* View Work (Red Filled) with Selection Frame */}
+              <DesignFrame tag="Button">
+                <MagneticButton href="#work" onClick={() => {
+                  const el = document.querySelector('#work');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  <button
+                    type="button"
+                    className="group relative overflow-hidden bg-[#E11D2E] hover:bg-[#FF2D3F] text-white px-8 py-4 text-xs sm:text-sm font-mono font-bold uppercase tracking-widest flex items-center gap-3 shadow-[0_0_25px_rgba(225,29,46,0.4)] hover:shadow-[0_0_35px_rgba(225,29,46,0.7)] transition-all duration-300 active:scale-95"
+                  >
+                    <span>VIEW WORK</span>
+                    <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1.5" />
+                  </button>
+                </MagneticButton>
+              </DesignFrame>
 
               {/* Download CV (Outline) */}
               <MagneticButton href={personal.cvDownloadUrl}>
@@ -182,43 +191,45 @@ export const Hero: React.FC = () => {
             </motion.div>
           </div>
 
-          {/* Right Column: Transparent Cutout Portrait with Edge-light & Stats */}
+          {/* Right Column: Transparent Cutout Portrait with Edge-light, Stats & Editor Frame */}
           <div className="lg:col-span-5 relative flex items-center justify-center lg:justify-end">
             
-            {/* Cutout Portrait Container with Parallax */}
-            <motion.div
-              style={{ x: portraitX, y: portraitY }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-[420px] aspect-[3/4] flex items-center justify-center"
-            >
-              {/* Red Edge Rim Lighting Box Behind */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#E11D2E]/20 via-transparent to-transparent opacity-80 blur-xl pointer-events-none" />
+            {/* Cutout Portrait Container with Parallax and Design Editor Selection Frame */}
+            <DesignFrame tag="Image" alwaysVisible={true} className="w-full max-w-[420px]">
+              <motion.div
+                style={{ x: portraitX, y: portraitY }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                className="relative w-full aspect-[3/4] flex items-center justify-center"
+              >
+                {/* Red Edge Rim Lighting Box Behind */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#E11D2E]/20 via-transparent to-transparent opacity-80 blur-xl pointer-events-none" />
 
-              {/* Decorative Frame Outline with Crosshairs */}
-              <div className="absolute inset-4 border border-white/10 rounded-xl pointer-events-none">
-                <span className="absolute -top-1.5 -left-1.5 text-zinc-600 font-mono text-[10px]">+</span>
-                <span className="absolute -top-1.5 -right-1.5 text-zinc-600 font-mono text-[10px]">+</span>
-                <span className="absolute -bottom-1.5 -left-1.5 text-zinc-600 font-mono text-[10px]">+</span>
-                <span className="absolute -bottom-1.5 -right-1.5 text-[#E11D2E] font-mono text-[10px]">+</span>
-              </div>
+                {/* Decorative Frame Outline with Crosshairs */}
+                <div className="absolute inset-4 border border-white/10 rounded-xl pointer-events-none">
+                  <span className="absolute -top-1.5 -left-1.5 text-zinc-600 font-mono text-[10px]">+</span>
+                  <span className="absolute -top-1.5 -right-1.5 text-zinc-600 font-mono text-[10px]">+</span>
+                  <span className="absolute -bottom-1.5 -left-1.5 text-zinc-600 font-mono text-[10px]">+</span>
+                  <span className="absolute -bottom-1.5 -right-1.5 text-[#E11D2E] font-mono text-[10px]">+</span>
+                </div>
 
-              {/* Cutout Portrait Image: placeholder transparent PNG */}
-              {/* Replace public/assets/hero-portrait.png with your transparent PNG cutout */}
-              <img
-                src={personal.heroPortrait}
-                alt={`${personal.name} — ${personal.role}`}
-                className="relative z-10 w-full h-full object-contain object-bottom drop-shadow-[0_20px_35px_rgba(225,29,46,0.35)] select-none pointer-events-none"
-                loading="eager"
-              />
+                {/* Cutout Portrait Image: placeholder transparent PNG */}
+                {/* Replace public/assets/hero-portrait.png with your transparent PNG cutout */}
+                <img
+                  src={personal.heroPortrait}
+                  alt={`${personal.name} — ${personal.role}`}
+                  className="relative z-10 w-full h-full object-contain object-bottom drop-shadow-[0_20px_35px_rgba(225,29,46,0.35)] select-none pointer-events-none"
+                  loading="eager"
+                />
 
-              {/* Camera Framing HUD Marker */}
-              <div className="absolute bottom-6 left-6 z-20 bg-[#0A0A0B]/85 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded font-mono text-[10px] text-zinc-400 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] animate-pulse" />
-                <span>LIVE FEED • 24.0 FPS</span>
-              </div>
-            </motion.div>
+                {/* Camera Framing HUD Marker */}
+                <div className="absolute bottom-6 left-6 z-20 bg-[#0A0A0B]/85 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded font-mono text-[10px] text-zinc-400 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] animate-pulse" />
+                  <span>LIVE FEED • 24.0 FPS</span>
+                </div>
+              </motion.div>
+            </DesignFrame>
 
             {/* Small stats on the edge with count-up animation */}
             <motion.div
@@ -260,3 +271,4 @@ export const Hero: React.FC = () => {
     </section>
   );
 };
+

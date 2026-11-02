@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { portfolioContent } from '../content.ts';
+import { DesignFrame } from './editor/DesignFrame.tsx';
 
 export const Awards: React.FC = () => {
   const { awards } = portfolioContent;
@@ -33,47 +34,49 @@ export const Awards: React.FC = () => {
               </p>
             </div>
 
-            {/* Big Red "10" inside Laurel-leaf icons */}
-            <div className="relative p-8 rounded-xl bg-[#121214] border border-white/10 max-w-sm flex flex-col items-center justify-center text-center shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
-              {/* Corner crosshairs */}
-              <span className="absolute top-2 left-2 font-mono text-[10px] text-zinc-600">+</span>
-              <span className="absolute top-2 right-2 font-mono text-[10px] text-zinc-600">+</span>
-              <span className="absolute bottom-2 left-2 font-mono text-[10px] text-zinc-600">+</span>
-              <span className="absolute bottom-2 right-2 font-mono text-[10px] text-[#E11D2E]">+</span>
+            {/* Big Red "10" inside Laurel-leaf icons with Design Editor Selection Frame */}
+            <DesignFrame tag="Badge" alwaysVisible={true} className="max-w-sm">
+              <div className="relative p-8 rounded-xl bg-[#121214] border border-white/10 w-full flex flex-col items-center justify-center text-center shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+                {/* Corner crosshairs */}
+                <span className="absolute top-2 left-2 font-mono text-[10px] text-zinc-600">+</span>
+                <span className="absolute top-2 right-2 font-mono text-[10px] text-zinc-600">+</span>
+                <span className="absolute bottom-2 left-2 font-mono text-[10px] text-zinc-600">+</span>
+                <span className="absolute bottom-2 right-2 font-mono text-[10px] text-[#E11D2E]">+</span>
 
-              {/* Laurel Leaves SVG Illustration */}
-              <div className="flex items-center justify-center gap-4 mb-2">
-                {/* Left Laurel */}
-                <svg className="w-12 h-20 text-[#E11D2E]/80" viewBox="0 0 50 100" fill="currentColor">
-                  <path d="M45,95 C20,80 10,50 15,10 C18,25 28,38 35,45 C28,55 22,70 45,95 Z" opacity="0.4" />
-                  <ellipse cx="28" cy="20" rx="6" ry="12" transform="rotate(-30 28 20)" />
-                  <ellipse cx="20" cy="40" rx="6" ry="12" transform="rotate(-40 20 40)" />
-                  <ellipse cx="18" cy="62" rx="6" ry="12" transform="rotate(-50 18 62)" />
-                  <ellipse cx="25" cy="82" rx="5" ry="10" transform="rotate(-60 25 82)" />
-                </svg>
+                {/* Laurel Leaves SVG Illustration */}
+                <div className="flex items-center justify-center gap-4 mb-2">
+                  {/* Left Laurel */}
+                  <svg className="w-12 h-20 text-[#E11D2E]/80" viewBox="0 0 50 100" fill="currentColor">
+                    <path d="M45,95 C20,80 10,50 15,10 C18,25 28,38 35,45 C28,55 22,70 45,95 Z" opacity="0.4" />
+                    <ellipse cx="28" cy="20" rx="6" ry="12" transform="rotate(-30 28 20)" />
+                    <ellipse cx="20" cy="40" rx="6" ry="12" transform="rotate(-40 20 40)" />
+                    <ellipse cx="18" cy="62" rx="6" ry="12" transform="rotate(-50 18 62)" />
+                    <ellipse cx="25" cy="82" rx="5" ry="10" transform="rotate(-60 25 82)" />
+                  </svg>
 
-                {/* Big Red "10" Number */}
-                <span className="font-heading text-7xl sm:text-8xl font-black text-[#E11D2E] tracking-tight leading-none drop-shadow-[0_0_25px_rgba(225,29,46,0.6)]">
-                  10
-                </span>
+                  {/* Big Red "10" Number */}
+                  <span className="font-heading text-7xl sm:text-8xl font-black text-[#E11D2E] tracking-tight leading-none drop-shadow-[0_0_25px_rgba(225,29,46,0.6)]">
+                    10
+                  </span>
 
-                {/* Right Laurel */}
-                <svg className="w-12 h-20 text-[#E11D2E]/80 transform -scale-x-100" viewBox="0 0 50 100" fill="currentColor">
-                  <path d="M45,95 C20,80 10,50 15,10 C18,25 28,38 35,45 C28,55 22,70 45,95 Z" opacity="0.4" />
-                  <ellipse cx="28" cy="20" rx="6" ry="12" transform="rotate(-30 28 20)" />
-                  <ellipse cx="20" cy="40" rx="6" ry="12" transform="rotate(-40 20 40)" />
-                  <ellipse cx="18" cy="62" rx="6" ry="12" transform="rotate(-50 18 62)" />
-                  <ellipse cx="25" cy="82" rx="5" ry="10" transform="rotate(-60 25 82)" />
-                </svg>
+                  {/* Right Laurel */}
+                  <svg className="w-12 h-20 text-[#E11D2E]/80 transform -scale-x-100" viewBox="0 0 50 100" fill="currentColor">
+                    <path d="M45,95 C20,80 10,50 15,10 C18,25 28,38 35,45 C28,55 22,70 45,95 Z" opacity="0.4" />
+                    <ellipse cx="28" cy="20" rx="6" ry="12" transform="rotate(-30 28 20)" />
+                    <ellipse cx="20" cy="40" rx="6" ry="12" transform="rotate(-40 20 40)" />
+                    <ellipse cx="18" cy="62" rx="6" ry="12" transform="rotate(-50 18 62)" />
+                    <ellipse cx="25" cy="82" rx="5" ry="10" transform="rotate(-60 25 82)" />
+                  </svg>
+                </div>
+
+                <div className="font-mono text-xs uppercase tracking-[0.25em] text-white font-bold mb-1">
+                  AWARDS &amp; HONORS
+                </div>
+                <div className="font-mono text-[11px] text-zinc-500 uppercase">
+                  International &amp; Regional Laurels
+                </div>
               </div>
-
-              <div className="font-mono text-xs uppercase tracking-[0.25em] text-white font-bold mb-1">
-                AWARDS &amp; HONORS
-              </div>
-              <div className="font-mono text-[11px] text-zinc-500 uppercase">
-                International &amp; Regional Laurels
-              </div>
-            </div>
+            </DesignFrame>
           </div>
 
           {/* Right Column: Clean List of 10 Awards with Staggered Entrance & Red Hover */}

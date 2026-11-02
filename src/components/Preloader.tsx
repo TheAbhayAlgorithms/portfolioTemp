@@ -103,3 +103,4 @@ export const Preloader: React.FC<PreloaderProps> = ({
     </AnimatePresence>
   );
 };
+

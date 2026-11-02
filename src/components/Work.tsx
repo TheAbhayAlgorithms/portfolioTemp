@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight, Play } from 'lucide-react';
 import { portfolioContent, ProjectItem } from '../content.ts';
+import { DesignFrame } from './editor/DesignFrame.tsx';
 
 interface WorkProps {
   onSelectProject: (project: ProjectItem) => void;
@@ -90,54 +91,56 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
                   onMouseLeave={() => setHoveredProjectId(null)}
                   data-cursor="PLAY"
                 >
-                  {/* Thumbnail / Looping Video Container */}
-                  <div className="relative w-full aspect-[16/10] overflow-hidden bg-black/60">
-                    {/* Fallback Still Image */}
-                    <img
-                      src={project.thumbnailUrl}
-                      alt={project.title}
-                      className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
-                        isHovered && project.previewVideoUrl ? 'opacity-0' : 'opacity-100'
-                      }`}
-                      loading="lazy"
-                    />
-
-                    {/* Muted Looping Video Preview on Hover */}
-                    {project.previewVideoUrl && (
-                      <video
-                        src={project.previewVideoUrl}
-                        muted
-                        loop
-                        playsInline
-                        autoPlay={isHovered}
-                        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                          isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100 pointer-events-none'
+                  {/* Thumbnail / Looping Video Container with Design Editor Selection Frame */}
+                  <DesignFrame tag="Video" defaultVisible={index === 0} className="w-full">
+                    <div className="relative w-full aspect-[16/10] overflow-hidden bg-black/60">
+                      {/* Fallback Still Image */}
+                      <img
+                        src={project.thumbnailUrl}
+                        alt={project.title}
+                        className={`w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 ${
+                          isHovered && project.previewVideoUrl ? 'opacity-0' : 'opacity-100'
                         }`}
+                        loading="lazy"
                       />
-                    )}
 
-                    {/* Gradient Overlay for Legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-black/30 pointer-events-none" />
+                      {/* Muted Looping Video Preview on Hover */}
+                      {project.previewVideoUrl && (
+                        <video
+                          src={project.previewVideoUrl}
+                          muted
+                          loop
+                          playsInline
+                          autoPlay={isHovered}
+                          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                            isHovered ? 'opacity-100 scale-105' : 'opacity-0 scale-100 pointer-events-none'
+                          }`}
+                        />
+                      )}
 
-                    {/* Top Left: Number Badge */}
-                    <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-3 py-1 border border-white/10 font-mono text-xs font-bold text-white">
-                      <span className="text-[#E11D2E]">{project.number}</span>
-                      <span className="text-zinc-500">/</span>
-                      <span className="text-zinc-400">{project.category}</span>
-                    </div>
+                      {/* Gradient Overlay for Legibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#121214] via-transparent to-black/30 pointer-events-none" />
 
-                    {/* Top Right: Year & Duration */}
-                    <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-2.5 py-1 border border-white/10 font-mono text-[11px] text-zinc-300">
-                      <span>{project.year}</span>
-                    </div>
+                      {/* Top Left: Number Badge */}
+                      <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-3 py-1 border border-white/10 font-mono text-xs font-bold text-white">
+                        <span className="text-[#E11D2E]">{project.number}</span>
+                        <span className="text-zinc-500">/</span>
+                        <span className="text-zinc-400">{project.category}</span>
+                      </div>
 
-                    {/* Center Hover Play Icon Prompt */}
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                      <div className="w-14 h-14 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] transform group-hover:scale-110 transition-transform duration-300">
-                        <Play className="w-6 h-6 ml-1 fill-white" />
+                      {/* Top Right: Year & Duration */}
+                      <div className="absolute top-4 right-4 z-10 flex items-center gap-2 bg-[#0A0A0B]/80 backdrop-blur-md px-2.5 py-1 border border-white/10 font-mono text-[11px] text-zinc-300">
+                        <span>{project.year}</span>
+                      </div>
+
+                      {/* Center Hover Play Icon Prompt */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <div className="w-14 h-14 rounded-full bg-[#E11D2E] text-white flex items-center justify-center shadow-[0_0_25px_#FF2D3F] transform group-hover:scale-110 transition-transform duration-300">
+                          <Play className="w-6 h-6 ml-1 fill-white" />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </DesignFrame>
 
                   {/* Card Bottom Meta */}
                   <div className="p-6 flex flex-col justify-between flex-grow border-t border-white/5">
@@ -193,12 +196,16 @@ export const Work: React.FC<WorkProps> = ({ onSelectProject }) => {
                   key={`${client.name}-${idx}`}
                   className="mx-8 sm:mx-14 group flex flex-col items-center cursor-default select-none"
                 >
-                  <span className="font-heading text-3xl sm:text-5xl uppercase tracking-widest text-zinc-600 group-hover:text-white transition-colors duration-300">
-                    {client.name}
-                  </span>
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-600 group-hover:text-[#E11D2E] transition-colors duration-300">
-                    {client.tagline}
-                  </span>
+                  <DesignFrame tag="Logo">
+                    <div className="flex flex-col items-center px-3 py-1">
+                      <span className="font-heading text-3xl sm:text-5xl uppercase tracking-widest text-zinc-600 group-hover:text-white transition-colors duration-300">
+                        {client.name}
+                      </span>
+                      <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-600 group-hover:text-[#E11D2E] transition-colors duration-300">
+                        {client.tagline}
+                      </span>
+                    </div>
+                  </DesignFrame>
                 </div>
               ))}
             </div>

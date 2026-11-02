@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useSmoothScroll } from './hooks/useSmoothScroll.ts';
 import { portfolioContent, ProjectItem } from './content.ts';
 import { Preloader } from './components/Preloader.tsx';
-import { CustomCursor } from './components/CustomCursor.tsx';
+import { EditorOverlay } from './components/editor/EditorOverlay.tsx';
 import { ScrollProgressBar } from './components/ScrollProgressBar.tsx';
 import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
@@ -34,8 +34,8 @@ export function App() {
       {/* 2. Top Red Scroll Progress Bar */}
       <ScrollProgressBar />
 
-      {/* 3. Custom Dual-Ring Red Cursor */}
-      <CustomCursor />
+      {/* 3. Design-Editor Overlay Layer (Real Cursor 'You', Ghost Cursors, Hover Frames & Toolbar) */}
+      <EditorOverlay />
 
       {/* 4. Preloader (Curtain wipe intro) */}
       {!preloaderDone && (

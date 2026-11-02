@@ -96,6 +96,12 @@ html.lenis, html.lenis body {
   height: auto;
 }
 
+@media (pointer: fine) {
+  body, a, button, [role="button"], input, textarea, select {
+    cursor: none !important;
+  }
+}
+
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;
 }
@@ -134,3 +140,4 @@ html.lenis, html.lenis body {
     scroll-behavior: auto !important;
   }
 }
+

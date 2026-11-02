@@ -33,7 +33,7 @@
 }
 
 /* -------------------------------------------------------------
- * LIVEBUILD ENGINE RULES
+ * LIVEBUILD ENGINE RULES - SLOW & SMOOTH CINEMATIC ASSEMBLY
  * ------------------------------------------------------------- */
 [data-build]:not(.is-built) {
   visibility: hidden !important;
@@ -43,36 +43,39 @@
   visibility: visible !important;
 }
 
-/* Caret during text typing */
+/* Character spans during text typing with soft blur deblur */
+.build-char {
+  display: inline;
+  opacity: 0;
+  filter: blur(4px);
+  transform: translateY(2px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              filter 0.3s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.build-char.typed {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0);
+}
+
+/* Caret during text typing with Figma blue glow */
 .build-caret {
   display: inline-block;
-  width: 2px;
-  height: 1em;
+  width: 2.5px;
+  height: 1.15em;
   background-color: #2F6BFF;
+  box-shadow: 0 0 10px rgba(47, 107, 255, 0.85);
   vertical-align: text-bottom;
   margin-left: 2px;
-  animation: build-blink 0.75s step-end infinite;
+  animation: build-blink 0.65s step-end infinite;
+  border-radius: 1px;
 }
 
 .is-typing {
-  outline: 1px dashed #2F6BFF !important;
-  outline-offset: 3px;
-}
-
-/* Repeated item duplicate stamp effect */
-.build-stamp {
-  animation: build-duplicate 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-@keyframes build-duplicate {
-  0% {
-    transform: scale(1.05);
-    box-shadow: 0 0 25px rgba(47, 107, 255, 0.45);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: none;
-  }
+  outline: 1.5px dashed rgba(47, 107, 255, 0.7) !important;
+  outline-offset: 4px;
 }
 
 @keyframes build-blink {
@@ -80,41 +83,134 @@
   50% { opacity: 0; }
 }
 
-/* Image clip reveal */
+/* Image & Video photographic clip reveal with smooth deblur */
 .build-image-reveal {
-  animation: build-clip-deblur 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: build-clip-deblur 0.95s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: clip-path, filter, opacity;
 }
 
 @keyframes build-clip-deblur {
   0% {
-    clip-path: polygon(0 0, 0 0, 0 0, 0 0);
-    filter: blur(12px);
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
+    filter: blur(14px) brightness(1.2);
+    opacity: 0.3;
+  }
+  60% {
+    filter: blur(4px) brightness(1.05);
+    opacity: 0.95;
   }
   100% {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    filter: blur(0px);
+    filter: blur(0px) brightness(1);
+    opacity: 1;
   }
 }
 
-/* Button color wipe */
+/* Button reveal with luminous accent fill sweep */
 .build-button-wipe {
   position: relative;
   overflow: hidden;
+  animation: build-button-reveal 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+@keyframes build-button-reveal {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.96);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 .build-button-wipe::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: #E11D2E;
+  inset: -20px;
+  background: linear-gradient(90deg, transparent 0%, rgba(225, 29, 46, 0.45) 50%, transparent 100%);
   transform: translateX(-100%);
-  animation: build-wipe 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: build-wipe 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
 
 @keyframes build-wipe {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(0%); }
+  0% { transform: translateX(-100%); opacity: 0; }
+  35% { opacity: 1; }
+  100% { transform: translateX(100%); opacity: 0; }
+}
+
+/* Card, Badge & Container smooth materialization */
+.build-card-reveal {
+  animation: build-card-materialize 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes build-card-materialize {
+  0% {
+    opacity: 0;
+    transform: scale(0.975);
+    box-shadow: 0 0 30px rgba(47, 107, 255, 0.35);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.008);
+    box-shadow: 0 0 15px rgba(47, 107, 255, 0.15);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: none;
+  }
+}
+
+/* Repeated item duplicate stamp effect */
+.build-stamp {
+  animation: build-duplicate 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes build-duplicate {
+  0% {
+    opacity: 0.2;
+    transform: scale(1.04);
+    box-shadow: 0 0 30px rgba(47, 107, 255, 0.5);
+    filter: brightness(1.2);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(0.995);
+    box-shadow: 0 0 12px rgba(47, 107, 255, 0.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: none;
+    filter: none;
+  }
+}
+
+/* Line drawing & blueprint glow effect */
+.build-line-reveal {
+  animation: build-line-glow 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes build-line-glow {
+  0% {
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(47, 107, 255, 0.9));
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px rgba(47, 107, 255, 0.6));
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
 }
 
 /* -------------------------------------------------------------

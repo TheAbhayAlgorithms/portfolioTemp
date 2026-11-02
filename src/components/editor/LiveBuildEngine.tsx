@@ -58,7 +58,7 @@ interface LiveBuildContextType {
 
 const LiveBuildContext = createContext<LiveBuildContextType | null>(null);
 
-const SESSION_KEY = 'portfolio_live_build_completed_v3';
+const SESSION_KEY = 'portfolio_live_build_completed_v4';
 
 export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(() => {
@@ -112,34 +112,41 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Typewriter effect utility: character by character with blinking caret and dashed outline
   const runTypewriter = (el: HTMLElement, onDone: () => void) => {
-    const originalHTML = el.innerHTML;
-    const textContent = el.textContent || '';
-    if (!textContent.trim() || el.children.length > 5) {
+    // Look for inner heading/text child if el is a wrapper to preserve typography classes
+    const targetEl =
+      el.children.length === 1 && el.firstElementChild instanceof HTMLElement
+        ? (el.firstElementChild as HTMLElement)
+        : el;
+
+    const originalHTML = targetEl.innerHTML;
+    const textContent = targetEl.textContent || '';
+    if (!textContent.trim() || targetEl.children.length > 5) {
       onDone();
       return;
     }
 
-    el.classList.add('is-typing');
+    targetEl.classList.add('is-typing');
 
     // Split text into span characters
     const chars = textContent.split('');
-    el.innerHTML = '';
+    targetEl.innerHTML = '';
     const spanElements: HTMLSpanElement[] = [];
 
     chars.forEach((char) => {
       const span = document.createElement('span');
       span.className = 'build-char';
       span.textContent = char;
-      el.appendChild(span);
+      targetEl.appendChild(span);
       spanElements.push(span);
     });
 
     const caret = document.createElement('span');
     caret.className = 'build-caret';
-    el.appendChild(caret);
+    targetEl.appendChild(caret);
 
     let idx = 0;
-    const speed = Math.max(12, Math.min(26, 450 / (chars.length || 1)));
+    // Paced comfortably: 32ms - 60ms per char for smooth readable progression (~1.2s - 1.8s)
+    const speed = Math.max(32, Math.min(60, 1400 / (chars.length || 1)));
 
     const interval = setInterval(() => {
       if (idx < spanElements.length) {
@@ -147,10 +154,12 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         idx++;
       } else {
         clearInterval(interval);
-        if (caret.parentNode) caret.parentNode.removeChild(caret);
-        el.innerHTML = originalHTML; // restore full HTML with formatting
-        el.classList.remove('is-typing');
-        onDone();
+        setTimeout(() => {
+          if (caret.parentNode) caret.parentNode.removeChild(caret);
+          targetEl.innerHTML = originalHTML; // restore full HTML with formatting
+          targetEl.classList.remove('is-typing');
+          onDone();
+        }, 240);
       }
     }, speed);
   };
@@ -177,7 +186,7 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       return;
     }
 
-    // Phase 1: Travel cursor to rect top-left along curved path with overshoot
+    // Phase 1: Travel cursor to rect top-left along curved path with smooth ease
     cursor.actionText = `drawFrame ${Math.round(initialRect.width)}×${Math.round(initialRect.height)}`;
 
     const startX = cursor.x;
@@ -186,8 +195,8 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
     gsap.to(travelObj, {
       p: 1,
-      duration: 0.5,
-      ease: 'power3.inOut',
+      duration: 0.82,
+      ease: 'power2.inOut',
       onUpdate: () => {
         const curRect = el.getBoundingClientRect();
         // Check if leaving screen
@@ -209,135 +218,146 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         const dx = tX - startX;
         const dy = tY - startY;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        // Slight organic perpendicular arc
-        const arc = Math.sin(travelObj.p * Math.PI) * Math.min(45, dist * 0.12);
+        // Organic curved path
+        const arc = Math.sin(travelObj.p * Math.PI) * Math.min(55, dist * 0.14);
         cursor.x = startX + (tX - startX) * travelObj.p - (dy / (dist || 1)) * arc;
         cursor.y = startY + (tY - startY) * travelObj.p + (dx / (dist || 1)) * arc;
 
         setRenderTrigger((n) => n + 1);
       },
       onComplete: () => {
-        // Phase 2: Click down & start dragging frame
-        cursor.isClicking = true;
-        cursor.scale = 0.85;
+        // Natural micro-pause before dragging frame
+        setTimeout(() => {
+          // Phase 2: Click down & start dragging frame
+          cursor.isClicking = true;
+          cursor.scale = 0.85;
 
-        const snapRect = el.getBoundingClientRect();
-        cursor.activeFrame = {
-          x: snapRect.left,
-          y: snapRect.top,
-          w: 8,
-          h: 8,
-          tag: tagLabel,
-          sizeText: '8 × 8',
-          opacity: 1,
-        };
+          const snapRect = el.getBoundingClientRect();
+          cursor.activeFrame = {
+            x: snapRect.left,
+            y: snapRect.top,
+            w: 8,
+            h: 8,
+            tag: tagLabel,
+            sizeText: '8 × 8',
+            opacity: 1,
+          };
 
-        // Flash pink snap guides
-        setSnapGuides([
-          { x: snapRect.left, label: `${Math.round(snapRect.left)}px` },
-          { y: snapRect.top, label: `${Math.round(snapRect.top)}px` },
-        ]);
-        setTimeout(() => setSnapGuides([]), 280);
+          // Flash pink snap guides
+          setSnapGuides([
+            { x: snapRect.left, label: `${Math.round(snapRect.left)}px` },
+            { y: snapRect.top, label: `${Math.round(snapRect.top)}px` },
+          ]);
+          setTimeout(() => setSnapGuides([]), 480);
 
-        // Phase 3: Drag diagonally to rect bottom-right
-        const dragObj = { p: 0 };
+          // Phase 3: Drag diagonally to rect bottom-right
+          const dragObj = { p: 0 };
 
-        gsap.to(dragObj, {
-          p: 1,
-          duration: 0.55,
-          ease: 'power2.inOut',
-          onUpdate: () => {
-            const r = el.getBoundingClientRect();
-            if (r.bottom < -120 || r.top > window.innerHeight + 250) {
-              gsap.killTweensOf(dragObj);
-              el.classList.add('is-built');
-              builtElementsRef.current.add(el);
-              activeBuildsRef.current.delete(el);
-              cursor.busy = false;
-              cursor.activeFrame = null;
-              cursor.actionText = undefined;
-              setBuiltCount(builtElementsRef.current.size);
-              setRenderTrigger((n) => n + 1);
-              return;
-            }
-
-            cursor.x = r.left + (r.right - r.left) * dragObj.p;
-            cursor.y = r.top + (r.bottom - r.top) * dragObj.p;
-
-            if (cursor.activeFrame) {
-              cursor.activeFrame.x = r.left;
-              cursor.activeFrame.y = r.top;
-              cursor.activeFrame.w = Math.max(8, cursor.x - r.left);
-              cursor.activeFrame.h = Math.max(8, cursor.y - r.top);
-              cursor.activeFrame.sizeText = `${Math.round(cursor.activeFrame.w)} × ${Math.round(cursor.activeFrame.h)}`;
-            }
-            setRenderTrigger((n) => n + 1);
-          },
-          onComplete: () => {
-            cursor.isClicking = false;
-            cursor.scale = 1;
-
-            // Phase 4: Run Content Reveal by Type
-            el.classList.add('is-built');
-
-            const finishElement = () => {
-              // Fade frame handles and chip
-              if (cursor.activeFrame) {
-                gsap.to(cursor.activeFrame, {
-                  opacity: 0,
-                  duration: 0.2,
-                  onComplete: () => {
-                    cursor.activeFrame = null;
-                    cursor.busy = false;
-                    cursor.actionText = undefined;
-                    activeBuildsRef.current.delete(el);
-                    builtElementsRef.current.add(el);
-                    setBuiltCount(builtElementsRef.current.size);
-                    setRenderTrigger((n) => n + 1);
-                  },
-                });
-              } else {
-                cursor.busy = false;
-                cursor.actionText = undefined;
-                activeBuildsRef.current.delete(el);
+          gsap.to(dragObj, {
+            p: 1,
+            duration: 0.92,
+            ease: 'power2.inOut',
+            onUpdate: () => {
+              const r = el.getBoundingClientRect();
+              if (r.bottom < -120 || r.top > window.innerHeight + 250) {
+                gsap.killTweensOf(dragObj);
+                el.classList.add('is-built');
                 builtElementsRef.current.add(el);
+                activeBuildsRef.current.delete(el);
+                cursor.busy = false;
+                cursor.activeFrame = null;
+                cursor.actionText = undefined;
                 setBuiltCount(builtElementsRef.current.size);
                 setRenderTrigger((n) => n + 1);
+                return;
               }
-            };
 
-            // Type-specific action execution
-            if (type === 'heading' || type === 'text' || type === 'paragraph') {
-              cursor.actionText = 'typing text...';
-              runTypewriter(el, finishElement);
-            } else if (type === 'image' || type === 'video') {
-              cursor.actionText = 'dropMedia 4K';
-              el.classList.add('build-image-reveal');
-              setTimeout(finishElement, 350);
-            } else if (type === 'button') {
-              cursor.actionText = 'colorFill #E11D2E';
-              el.classList.add('build-button-wipe');
-              setTimeout(finishElement, 300);
-            } else if (type === 'repeated') {
-              cursor.actionText = 'Ctrl+D Stamp';
-              el.classList.add('build-stamp');
-              setTimeout(finishElement, 250);
-            } else if (type === 'line') {
-              cursor.actionText = 'Pen tool draw';
-              setTimeout(finishElement, 250);
-            } else if (type === 'big-text') {
-              cursor.actionText = 'resize 100%';
-              gsap.fromTo(el, { scale: 0.8 }, { scale: 1, duration: 0.35, ease: 'back.out(1.5)', onComplete: finishElement });
-            } else {
-              setTimeout(finishElement, 200);
-            }
-          },
-        });
+              cursor.x = r.left + (r.right - r.left) * dragObj.p;
+              cursor.y = r.top + (r.bottom - r.top) * dragObj.p;
+
+              if (cursor.activeFrame) {
+                cursor.activeFrame.x = r.left;
+                cursor.activeFrame.y = r.top;
+                cursor.activeFrame.w = Math.max(8, cursor.x - r.left);
+                cursor.activeFrame.h = Math.max(8, cursor.y - r.top);
+                cursor.activeFrame.sizeText = `${Math.round(cursor.activeFrame.w)} × ${Math.round(cursor.activeFrame.h)}`;
+              }
+              setRenderTrigger((n) => n + 1);
+            },
+            onComplete: () => {
+              cursor.isClicking = false;
+              cursor.scale = 1;
+
+              // Phase 4: Run Content Reveal by Type
+              el.classList.add('is-built');
+
+              const finishElement = () => {
+                // Fade frame handles and chip smoothly
+                if (cursor.activeFrame) {
+                  gsap.to(cursor.activeFrame, {
+                    opacity: 0,
+                    duration: 0.42,
+                    ease: 'power2.out',
+                    onComplete: () => {
+                      cursor.activeFrame = null;
+                      cursor.busy = false;
+                      cursor.actionText = undefined;
+                      activeBuildsRef.current.delete(el);
+                      builtElementsRef.current.add(el);
+                      setBuiltCount(builtElementsRef.current.size);
+                      setRenderTrigger((n) => n + 1);
+                    },
+                  });
+                } else {
+                  cursor.busy = false;
+                  cursor.actionText = undefined;
+                  activeBuildsRef.current.delete(el);
+                  builtElementsRef.current.add(el);
+                  setBuiltCount(builtElementsRef.current.size);
+                  setRenderTrigger((n) => n + 1);
+                }
+              };
+
+              // Type-specific action execution
+              if (type === 'heading' || type === 'text' || type === 'paragraph') {
+                cursor.actionText = 'typing text...';
+                runTypewriter(el, finishElement);
+              } else if (type === 'image' || type === 'video') {
+                cursor.actionText = 'dropMedia 4K';
+                el.classList.add('build-image-reveal');
+                setTimeout(finishElement, 900);
+              } else if (type === 'button') {
+                cursor.actionText = 'colorFill #E11D2E';
+                el.classList.add('build-button-wipe');
+                setTimeout(finishElement, 800);
+              } else if (type === 'repeated') {
+                cursor.actionText = 'Ctrl+D Stamp';
+                el.classList.add('build-stamp');
+                setTimeout(finishElement, 750);
+              } else if (type === 'line') {
+                cursor.actionText = 'penDrawLine';
+                el.classList.add('build-line-reveal');
+                setTimeout(finishElement, 800);
+              } else if (type === 'big-text') {
+                cursor.actionText = 'scaleTypography';
+                gsap.fromTo(
+                  el,
+                  { opacity: 0, filter: 'blur(10px)' },
+                  { opacity: 1, filter: 'blur(0px)', duration: 0.9, ease: 'power2.out', onComplete: finishElement }
+                );
+              } else {
+                cursor.actionText = `create ${tagLabel}`;
+                el.classList.add('build-card-reveal');
+                setTimeout(finishElement, 750);
+              }
+            },
+          });
+        }, 110);
       },
     });
   }, []);
 
-  // Scheduler Loop: Assigns free cursors to queued elements (up to 3 parallel builds)
+  // Scheduler Loop: Assigns free cursors to queued elements (up to 3 parallel builds with smooth pacing)
   useEffect(() => {
     if (isCompleted) return;
 
@@ -358,7 +378,7 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
       const assignedCursor = idleCursors[0];
       executeBuild(nextEl, assignedCursor);
-    }, 60);
+    }, 160);
 
     return () => clearInterval(interval);
   }, [executeBuild, isCompleted]);
@@ -370,14 +390,21 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const driftInterval = setInterval(() => {
       cursorsRef.current.forEach((cursor) => {
         if (!cursor.busy) {
-          const deltaX = (Math.random() - 0.5) * 50;
-          const deltaY = (Math.random() - 0.5) * 35;
-          cursor.x = Math.max(40, Math.min(window.innerWidth - 60, cursor.x + deltaX));
-          cursor.y = Math.max(40, Math.min(window.innerHeight - 60, cursor.y + deltaY));
+          const deltaX = (Math.random() - 0.5) * 60;
+          const deltaY = (Math.random() - 0.5) * 45;
+          const targetX = Math.max(40, Math.min(window.innerWidth - 60, cursor.x + deltaX));
+          const targetY = Math.max(40, Math.min(window.innerHeight - 60, cursor.y + deltaY));
+
+          gsap.to(cursor, {
+            x: targetX,
+            y: targetY,
+            duration: 2.0,
+            ease: 'sine.inOut',
+            onUpdate: () => setRenderTrigger((n) => n + 1),
+          });
         }
       });
-      setRenderTrigger((n) => n + 1);
-    }, 2000);
+    }, 2400);
 
     return () => clearInterval(driftInterval);
   }, [isCompleted]);
@@ -479,7 +506,10 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } catch {
       // ignore
     }
-    document.querySelectorAll('[data-build]').forEach((el) => el.classList.add('is-built'));
+    document.querySelectorAll('[data-build]').forEach((el) => {
+      el.classList.add('is-built');
+      el.classList.remove('is-typing');
+    });
     queueRef.current = [];
     activeBuildsRef.current.clear();
     cursorsRef.current.forEach((c) => {
@@ -506,6 +536,9 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       el.classList.remove('build-image-reveal');
       el.classList.remove('build-button-wipe');
       el.classList.remove('build-stamp');
+      el.classList.remove('build-card-reveal');
+      el.classList.remove('build-line-reveal');
+      el.classList.remove('is-typing');
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setBuiltCount(0);

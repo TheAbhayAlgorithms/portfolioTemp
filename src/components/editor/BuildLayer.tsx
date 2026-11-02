@@ -9,6 +9,7 @@ export const BuildLayer: React.FC = () => {
     totalElements,
     builtCount,
     skipBuild,
+    replayBuild,
     isCompleted,
     cursors,
     snapGuides,
@@ -115,7 +116,6 @@ export const BuildLayer: React.FC = () => {
               border: '1px solid #2F6BFF',
               boxShadow: '0 0 14px rgba(47, 107, 255, 0.4)',
               opacity: f.opacity,
-              transition: 'opacity 0.2s ease',
             }}
           >
             {/* 4 Corner Square Handles */}
@@ -185,11 +185,12 @@ export const BuildLayer: React.FC = () => {
       {!isCompleted && cursors.map((c) => (
         <div
           key={c.id}
-          className="fixed pointer-events-none z-40 transition-transform duration-75"
+          className="fixed pointer-events-none z-40"
           style={{
-            left: c.x,
-            top: c.y,
-            transform: `scale(${c.scale})`,
+            left: 0,
+            top: 0,
+            transform: `translate3d(${c.x}px, ${c.y}px, 0) scale(${c.scale})`,
+            willChange: 'transform',
           }}
         >
           <div className="relative">
@@ -307,8 +308,9 @@ export const BuildLayer: React.FC = () => {
         <div className="w-[1px] h-4 bg-white/15 mx-1" />
         <button
           type="button"
-          title="Present Mode (Ctrl+Alt+Enter)"
-          className="w-8 h-8 rounded-full flex items-center justify-center text-[#E11D2E] hover:bg-[#E11D2E]/10 transition-colors"
+          onClick={replayBuild}
+          title="Replay Build Sequence (Present Mode)"
+          className="w-8 h-8 rounded-full flex items-center justify-center text-[#E11D2E] hover:bg-[#E11D2E]/10 transition-colors cursor-pointer"
         >
           <Play className="w-3.5 h-3.5 fill-[#E11D2E]" />
         </button>

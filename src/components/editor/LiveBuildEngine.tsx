@@ -54,6 +54,9 @@ interface LiveBuildContextType {
   cursors: GhostCursor[];
   snapGuides: SnapGuide[];
   visitorHoverBox: { x: number; y: number; w: number; h: number; tag: string } | null;
+  theme: 'dark' | 'light';
+  toggleTheme: (origin?: { x: number; y: number }) => void;
+  themeRipple: { id: number; x: number; y: number; targetTheme: 'dark' | 'light' } | null;
 }
 
 const LiveBuildContext = createContext<LiveBuildContextType | null>(null);
@@ -77,7 +80,20 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [snapGuides, setSnapGuides] = useState<SnapGuide[]>([]);
   const [visitorHoverBox, setVisitorHoverBox] = useState<{ x: number; y: number; w: number; h: number; tag: string } | null>(null);
 
-  // 5 Ghost Cursors: Aria (teal), Dev (pink), Maya (orange), Kai (purple), Sam (white)
+  // Day / Night Theme State
+  const [theme, setTheme] = useState<'dark' | 'light'>(() => {
+    try {
+      const stored = localStorage.getItem('portfolio_theme');
+      if (stored === 'light' || stored === 'dark') return stored;
+      return 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  const [themeRipple, setThemeRipple] = useState<{ id: number; x: number; y: number; targetTheme: 'dark' | 'light' } | null>(null);
+
+  // 5 Ghost Cursors: Aria (teal), Dev (pink), Maya (orange), Kai (purple), Sam (white in dark / dark in light)
   const cursorsRef = useRef<GhostCursor[]>([
     { id: 'c1', name: 'Aria', color: '#00E5FF', x: 120, y: 150, busy: false, scale: 1, isClicking: false },
     { id: 'c2', name: 'Dev', color: '#FF3B81', x: typeof window !== 'undefined' ? window.innerWidth - 180 : 1000, y: 220, busy: false, scale: 1, isClicking: false },
@@ -94,6 +110,27 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const isCompletedRef = useRef(isCompleted);
 
   isCompletedRef.current = isCompleted;
+
+  // Theme sync effect (document class & Sam's cursor color)
+  useEffect(() => {
+    if (theme === 'light') {
+      document.documentElement.classList.add('theme-light');
+      document.body.classList.add('theme-light');
+    } else {
+      document.documentElement.classList.remove('theme-light');
+      document.body.classList.remove('theme-light');
+    }
+    try {
+      localStorage.setItem('portfolio_theme', theme);
+    } catch {
+      // ignore
+    }
+    const sam = cursorsRef.current.find((c) => c.name === 'Sam');
+    if (sam) {
+      sam.color = theme === 'light' ? '#18181B' : '#FFFFFF';
+    }
+    setRenderTrigger((n) => n + 1);
+  }, [theme]);
 
   // Reduced motion / mobile auto-complete
   useEffect(() => {
@@ -551,16 +588,102 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     setRenderTrigger((n) => n + 1);
   }, []);
 
-  // Keyboard shortcut: Escape to skip
+  // Day / Night Theme Toggle with collaborative cursor & element re-materialization animation
+  const toggleTheme = useCallback((origin?: { x: number; y: number }) => {
+    const newTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(newTheme);
+
+    const clickX = origin ? origin.x : window.innerWidth / 2;
+    const clickY = origin ? origin.y : 60;
+
+    // 1. Trigger radial canvas wipe ripple
+    setThemeRipple({
+      id: Date.now(),
+      x: clickX,
+      y: clickY,
+      targetTheme: newTheme,
+    });
+    setTimeout(() => setThemeRipple(null), 900);
+
+    // 2. Flash Figma alignment snap guides at the toggle origin
+    setSnapGuides([
+      { x: clickX, label: `${newTheme === 'light' ? 'Day' : 'Night'} Mode` },
+      { y: clickY, label: `${Math.round(clickY)}px` },
+    ]);
+    setTimeout(() => setSnapGuides([]), 550);
+
+    // 3. Collaborative Ghost Cursor zooms to toggle with action badge and click ripple
+    const idleCursor = cursorsRef.current.find((c) => !c.busy) || cursorsRef.current[0];
+    if (idleCursor) {
+      idleCursor.busy = true;
+      idleCursor.actionText = newTheme === 'light' ? 'colorFill #F8F9FA' : 'colorFill #0A0A0B';
+
+      gsap.to(idleCursor, {
+        x: clickX - 8,
+        y: clickY - 8,
+        duration: 0.65,
+        ease: 'power2.out',
+        onUpdate: () => setRenderTrigger((n) => n + 1),
+        onComplete: () => {
+          idleCursor.isClicking = true;
+          idleCursor.scale = 0.85;
+          setRenderTrigger((n) => n + 1);
+
+          setTimeout(() => {
+            idleCursor.isClicking = false;
+            idleCursor.scale = 1;
+            idleCursor.busy = false;
+            idleCursor.actionText = undefined;
+            setRenderTrigger((n) => n + 1);
+          }, 600);
+        },
+      });
+    }
+
+    // 4. Re-materialize all built elements on screen with smooth element creation animation
+    const builtElements = Array.from(document.querySelectorAll<HTMLElement>('[data-build].is-built'));
+    builtElements.forEach((el) => {
+      const type = (el.getAttribute('data-build') || 'card').toLowerCase();
+      if (type === 'image' || type === 'video') {
+        el.classList.remove('build-image-reveal');
+        void el.offsetWidth;
+        el.classList.add('build-image-reveal');
+      } else if (type === 'button') {
+        el.classList.remove('build-button-wipe');
+        void el.offsetWidth;
+        el.classList.add('build-button-wipe');
+      } else if (type === 'repeated') {
+        el.classList.remove('build-stamp');
+        void el.offsetWidth;
+        el.classList.add('build-stamp');
+      } else if (type === 'line') {
+        el.classList.remove('build-line-reveal');
+        void el.offsetWidth;
+        el.classList.add('build-line-reveal');
+      } else {
+        el.classList.remove('build-card-reveal');
+        void el.offsetWidth;
+        el.classList.add('build-card-reveal');
+      }
+    });
+  }, [theme]);
+
+  // Keyboard shortcuts: Escape to skip, D to toggle Day/Night theme
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && !isCompletedRef.current) {
         skipBuild();
       }
+      if (
+        (e.key === 'd' || e.key === 'D') &&
+        !['INPUT', 'TEXTAREA', 'SELECT'].includes((e.target as HTMLElement)?.tagName)
+      ) {
+        toggleTheme();
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [skipBuild]);
+  }, [skipBuild, toggleTheme]);
 
   // Real Visitor Mouse Pointer tracking & hover selection frame
   useEffect(() => {
@@ -606,6 +729,9 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         cursors: cursorsRef.current,
         snapGuides,
         visitorHoverBox,
+        theme,
+        toggleTheme,
+        themeRipple,
       }}
     >
       {children}

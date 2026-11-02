@@ -185,3 +185,4 @@ export const GhostCursors: React.FC = () => {
     </div>
   );
 };
+

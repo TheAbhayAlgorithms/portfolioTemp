@@ -33,3 +33,4 @@ export const TimelinePlayhead: React.FC<TimelinePlayheadProps> = ({ scrollYProgr
     </motion.div>
   );
 };
+

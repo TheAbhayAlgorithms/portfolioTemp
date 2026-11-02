@@ -42,3 +42,4 @@ export const TextCaret: React.FC<TextCaretProps> = ({
     </span>
   );
 };
+

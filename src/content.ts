@@ -300,50 +300,50 @@ export const portfolioContent = {
   beforeAfterComparisons: [
     {
       id: "comp-1",
-      tabLabel: "Cyberpunk City",
-      title: "Atmospheric City Grade & Sky Composite",
-      description: "Transformation from a flat, desaturated LogC capture into a rich, contrasty cyberpunk night aesthetic with bloom highlights and cyan-magenta split tones.",
-      rawLabel: "RAW LOG",
-      finalLabel: "ACES FINAL",
+      tabLabel: "Generative UI",
+      title: "Interactive AI Canvas & Neural Synthesis",
+      description: "Transformation from a raw mathematical tensor matrix into an interactive, real-time generative UI component with responsive GPU shaders and fluid motion.",
+      rawLabel: "RAW LATENT MATRIX",
+      finalLabel: "NEURAL SYNTHESIS",
       rawImage: "/assets/before-after/cyberpunk-raw.jpg",
       finalImage: "/assets/before-after/cyberpunk-final.jpg",
       specs: {
-        camera: "ARRI Alexa Mini LF",
-        codec: "ProRes 4444 XQ (LogC3)",
-        colorSpace: "ACEScc / Rec.709",
-        resolution: "4448 x 3096 (2.39:1)"
+        camera: "React 19 / TypeScript",
+        codec: "PyTorch WebGPU",
+        colorSpace: "Tailwind + GSAP",
+        resolution: "60 FPS 4K Canvas"
       }
     },
     {
       id: "comp-2",
-      tabLabel: "Sci-Fi Hangar",
-      title: "Multi-Plate Matte & CGI Integration",
-      description: "Extraction of stage elements, background sky replacement, synthetic volumetric lighting, and subtle camera sensor dirt passes.",
-      rawLabel: "RAW STAGE",
-      finalLabel: "VFX COMPOSITE",
+      tabLabel: "Computer Vision",
+      title: "Edge Vision Segmentation & Spatial Tracking",
+      description: "Extraction of multi-class objects, depth estimation passes, real-time spatial bounding boxes, and camera sensor tracking on edge browser hardware.",
+      rawLabel: "CAMERA SENSOR INGEST",
+      finalLabel: "EDGE INFERENCE",
       rawImage: "/assets/before-after/scifi-raw.jpg",
       finalImage: "/assets/before-after/scifi-final.jpg",
       specs: {
-        camera: "RED V-Raptor 8K",
-        codec: "REDCODE RAW (IPP2)",
-        colorSpace: "REDWideGamutRGB",
-        resolution: "8192 x 4320"
+        camera: "TensorFlow.js / Wasm",
+        codec: "YOLOv8 Real-Time",
+        colorSpace: "Canvas 2D / WebGL",
+        resolution: "1920 x 1080 @ 60fps"
       }
     },
     {
       id: "comp-3",
-      tabLabel: "Sunset Pursuit",
-      title: "High-Speed Car Commercial Color Grade",
-      description: "Washed-out midday daylight turned into a moody dusk pursuit scene with targeted wheel flare, road sheen enhancement, and deep shadows.",
-      rawLabel: "FLAT PROFILE",
-      finalLabel: "HERO GRADE",
+      tabLabel: "High-Perf UI",
+      title: "Ultra-Fast Analytics Engine & Dynamic Architecture",
+      description: "From flat wireframe data structures into a rich, reactive dashboard with animated SVG telemetry, zero-jank scrolling, and sub-10ms state updates.",
+      rawLabel: "WIREFRAME SCHEMATIC",
+      finalLabel: "PRODUCTION UI",
       rawImage: "/assets/before-after/carchase-raw.jpg",
       finalImage: "/assets/before-after/carchase-final.jpg",
       specs: {
-        camera: "Sony FX9",
-        codec: "XAVC-I (S-Log3 / S-Gamut3.Cine)",
-        colorSpace: "DaVinci Wide Gamut",
-        resolution: "3840 x 2160"
+        camera: "Next.js / Vite",
+        codec: "Zustand State Store",
+        colorSpace: "Framer Motion / CSS",
+        resolution: "Sub-10ms Latency"
       }
     }
   ] as BeforeAfterItem[],

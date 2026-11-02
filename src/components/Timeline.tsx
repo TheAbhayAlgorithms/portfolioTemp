@@ -41,7 +41,7 @@ export const Timeline: React.FC = () => {
             CAREER &amp; MILESTONES<span className="text-[#E11D2E]">.</span>
           </h2>
           <p className="text-zinc-400 text-sm sm:text-base max-w-lg mt-3 font-normal">
-            A decade of evolution across commercial agencies, boutique VFX facilities, independent cinema, and freelance direction.
+            Academic trajectory, software development milestones, and hands-on AI/ML project initiatives.
           </p>
         </div>
 
@@ -64,7 +64,7 @@ export const Timeline: React.FC = () => {
             {/* Timecode Badge above scrubber */}
             <div className="mb-0.5 px-2 py-0.5 bg-[#E11D2E] text-white font-mono text-[9px] font-bold tracking-widest rounded-sm shadow-[0_0_10px_rgba(225,29,46,0.6)] uppercase whitespace-nowrap flex items-center gap-1 border border-white/20">
               <span className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
-              <span>00:02:14:08 • PLAYHEAD</span>
+              <span>2024–2026 • MCA PLAYHEAD</span>
             </div>
 
             {/* Red Inverted Triangle Scrubber Head */}

@@ -42,7 +42,7 @@ export const Testimonials: React.FC = () => {
         {/* Section Label: 07 / WORDS */}
         <div className="flex items-center gap-3 mb-4 justify-center">
           <span className="font-mono text-xs text-[#E11D2E] tracking-[0.25em] font-semibold">
-            07 / DIRECTORS &amp; CLIENTS
+            07 / RECOMMENDATIONS &amp; FEEDBACK
           </span>
         </div>
 

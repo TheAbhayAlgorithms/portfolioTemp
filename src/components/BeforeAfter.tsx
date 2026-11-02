@@ -38,7 +38,7 @@ export const BeforeAfter: React.FC = () => {
         {/* Section Label: 03 / BEFORE & AFTER */}
         <div className="flex items-center gap-3 mb-4">
           <span className="font-mono text-xs text-[#E11D2E] tracking-[0.25em] font-semibold">
-            03 / FROM RAW TO REAL
+            03 / CONCEPT TO CODE
           </span>
           <span className="h-[1px] w-12 bg-white/10" />
         </div>
@@ -47,10 +47,10 @@ export const BeforeAfter: React.FC = () => {
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
           <div data-build="heading">
             <h2 className="font-heading text-5xl sm:text-7xl lg:text-8xl tracking-tight uppercase font-black text-white">
-              FROM RAW<span className="text-[#E11D2E]">.</span> TO REAL<span className="text-[#E11D2E]">.</span>
+              FROM CONCEPT<span className="text-[#E11D2E]">.</span> TO CODE<span className="text-[#E11D2E]">.</span>
             </h2>
             <p className="text-zinc-400 text-sm sm:text-base max-w-lg mt-2 font-normal">
-              Slide to reveal the invisible craft: ACES color transformation, multipass compositing, and dynamic lighting reconstruction.
+              Slide to explore the engineering craft: wireframes to reactive UI, raw sensor inputs to real-time AI computer vision models.
             </p>
           </div>
 
@@ -157,22 +157,22 @@ export const BeforeAfter: React.FC = () => {
               </div>
             </div>
 
-            {/* Camera Technical Metadata Specs Strip */}
+            {/* Technical Metadata Specs Strip */}
             <div data-build="card" className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-[#121214] p-4 border border-white/10 rounded-sm font-mono text-xs">
               <div>
-                <span className="text-zinc-500 block text-[10px] uppercase">CAMERA</span>
+                <span className="text-zinc-500 block text-[10px] uppercase">TECH STACK</span>
                 <span className="text-white font-medium">{activeComparison.specs.camera}</span>
               </div>
               <div>
-                <span className="text-zinc-500 block text-[10px] uppercase">CAPTURE CODEC</span>
+                <span className="text-zinc-500 block text-[10px] uppercase">RUNTIME ENGINE</span>
                 <span className="text-white font-medium">{activeComparison.specs.codec}</span>
               </div>
               <div>
-                <span className="text-zinc-500 block text-[10px] uppercase">COLOR SPACE</span>
+                <span className="text-zinc-500 block text-[10px] uppercase">UI &amp; SHADERS</span>
                 <span className="text-[#FF2D3F] font-medium">{activeComparison.specs.colorSpace}</span>
               </div>
               <div>
-                <span className="text-zinc-500 block text-[10px] uppercase">RESOLUTION</span>
+                <span className="text-zinc-500 block text-[10px] uppercase">PERFORMANCE</span>
                 <span className="text-white font-medium">{activeComparison.specs.resolution}</span>
               </div>
             </div>
@@ -192,7 +192,7 @@ export const BeforeAfter: React.FC = () => {
             {/* 4-Step Mini Process List */}
             <div className="space-y-4">
               <span className="font-mono text-xs uppercase tracking-[0.25em] text-[#E11D2E] font-bold block">
-                // 4-STAGE POST PIPELINE
+                // 4-STAGE ARCHITECTURE PIPELINE
               </span>
 
               <div className="space-y-3">

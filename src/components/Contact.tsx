@@ -110,7 +110,7 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#FF2D3F]" />
               </span>
               <span className="font-mono text-xs text-white font-medium">
-                ● Available for freelance worldwide
+                ● {personal.availability}
               </span>
             </div>
 
@@ -328,13 +328,13 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                     {/* Message */}
                     <div data-build="form-field">
                       <label className="block font-mono text-xs uppercase tracking-wider text-zinc-400 mb-1">
-                        PROJECT BRIEF / TIMELINE / SCOPE *
+                        PROJECT OVERVIEW &amp; MESSAGE *
                       </label>
                       <textarea
                         rows={4}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                        placeholder="Tell me about your film, deadline, deliverables, and vision..."
+                        placeholder="Tell me about your project, idea, frontend requirements, or collaboration goals..."
                         className="w-full bg-[#0A0A0B] border border-white/10 focus:border-[#E11D2E] px-4 py-3 text-sm text-white focus:outline-none transition-colors rounded-none resize-none"
                       />
                       {formErrors.message && (
@@ -353,10 +353,10 @@ export const Contact: React.FC<ContactProps> = ({ onOpenShowreel }) => {
                           className="w-full py-4 bg-[#E11D2E] hover:bg-[#FF2D3F] disabled:opacity-50 text-white font-mono text-xs sm:text-sm uppercase tracking-widest font-bold flex items-center justify-center gap-3 shadow-[0_0_20px_rgba(225,29,46,0.4)] hover:shadow-[0_0_30px_rgba(225,29,46,0.6)] transition-all duration-300 cursor-pointer"
                         >
                           {isSubmitting ? (
-                            <span>TRANSMITTING BRIEF...</span>
+                            <span>SENDING MESSAGE...</span>
                           ) : (
                             <>
-                              <span>SEND TRANSMISSION</span>
+                              <span>SEND MESSAGE</span>
                               <Send className="w-4 h-4" />
                             </>
                           )}

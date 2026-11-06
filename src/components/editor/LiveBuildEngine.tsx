@@ -25,6 +25,7 @@ export interface GhostCursor {
   busy: boolean;
   scale: number;
   isClicking: boolean;
+  rotation?: number;
   actionText?: string;
   targetRect?: DOMRect | null;
   activeFrame?: {
@@ -57,11 +58,46 @@ interface LiveBuildContextType {
   theme: 'dark' | 'light';
   toggleTheme: (origin?: { x: number; y: number }) => void;
   themeRipple: { id: number; x: number; y: number; targetTheme: 'dark' | 'light' } | null;
+  buildPhase: 'circle' | 'spreading' | 'building' | 'completed';
+  circleCenter: { x: number; y: number };
+  circleRadius: number;
 }
 
 const LiveBuildContext = createContext<LiveBuildContextType | null>(null);
 
-const SESSION_KEY = 'portfolio_live_build_completed_v4';
+const SESSION_KEY = 'portfolio_live_build_completed_v5';
+
+const getInitialCircleCursors = (): GhostCursor[] => {
+  const isBrowser = typeof window !== 'undefined';
+  const cx = isBrowser ? window.innerWidth / 2 : 600;
+  const cy = isBrowser ? window.innerHeight / 2 : 400;
+  const r = isBrowser ? Math.min(95, Math.max(65, window.innerWidth * 0.16)) : 95;
+
+  const baseCursors: { id: string; name: 'Aria' | 'Dev' | 'Maya' | 'Kai' | 'Sam'; color: string }[] = [
+    { id: 'c1', name: 'Aria', color: '#00E5FF' },
+    { id: 'c2', name: 'Dev', color: '#FF3B81' },
+    { id: 'c3', name: 'Maya', color: '#FF8A00' },
+    { id: 'c4', name: 'Kai', color: '#A855F7' },
+    { id: 'c5', name: 'Sam', color: '#FFFFFF' },
+  ];
+
+  return baseCursors.map((c, i) => {
+    const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+    const x = cx + r * Math.cos(angle);
+    const y = cy + r * Math.sin(angle);
+    const rotDeg = (angle * 180) / Math.PI - 45;
+    return {
+      ...c,
+      x,
+      y,
+      busy: false,
+      scale: 1,
+      isClicking: false,
+      rotation: rotDeg,
+      actionText: 'syncing...',
+    };
+  });
+};
 
 export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(() => {
@@ -73,6 +109,28 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } catch {
       return false;
     }
+  });
+
+  const [buildPhase, setBuildPhase] = useState<'circle' | 'spreading' | 'building' | 'completed'>(() => {
+    try {
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+      const isReduced = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (isMobile || isReduced) return 'completed';
+      if (sessionStorage.getItem(SESSION_KEY) === 'true') return 'completed';
+      return 'circle';
+    } catch {
+      return 'circle';
+    }
+  });
+
+  const [circleCenter, setCircleCenter] = useState<{ x: number; y: number }>({
+    x: typeof window !== 'undefined' ? window.innerWidth / 2 : 600,
+    y: typeof window !== 'undefined' ? window.innerHeight / 2 : 400,
+  });
+
+  const [circleRadius, setCircleRadius] = useState<number>(() => {
+    if (typeof window === 'undefined') return 95;
+    return Math.min(95, Math.max(65, window.innerWidth * 0.16));
   });
 
   const [totalElements, setTotalElements] = useState(0);
@@ -94,13 +152,8 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [themeRipple, setThemeRipple] = useState<{ id: number; x: number; y: number; targetTheme: 'dark' | 'light' } | null>(null);
 
   // 5 Ghost Cursors: Aria (teal), Dev (pink), Maya (orange), Kai (purple), Sam (white in dark / dark in light)
-  const cursorsRef = useRef<GhostCursor[]>([
-    { id: 'c1', name: 'Aria', color: '#00E5FF', x: 120, y: 150, busy: false, scale: 1, isClicking: false },
-    { id: 'c2', name: 'Dev', color: '#FF3B81', x: typeof window !== 'undefined' ? window.innerWidth - 180 : 1000, y: 220, busy: false, scale: 1, isClicking: false },
-    { id: 'c3', name: 'Maya', color: '#FF8A00', x: typeof window !== 'undefined' ? window.innerWidth - 140 : 1050, y: 350, busy: false, scale: 1, isClicking: false },
-    { id: 'c4', name: 'Kai', color: '#A855F7', x: 90, y: 420, busy: false, scale: 1, isClicking: false },
-    { id: 'c5', name: 'Sam', color: '#FFFFFF', x: typeof window !== 'undefined' ? window.innerWidth / 2 : 600, y: 200, busy: false, scale: 1, isClicking: false },
-  ]);
+  // Initialized in circle formation at the center of the viewport
+  const cursorsRef = useRef<GhostCursor[]>(getInitialCircleCursors());
 
   const [, setRenderTrigger] = useState(0);
   const queueRef = useRef<HTMLElement[]>([]);
@@ -108,8 +161,11 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const builtElementsRef = useRef<Set<HTMLElement>>(new Set());
   const observerRef = useRef<IntersectionObserver | null>(null);
   const isCompletedRef = useRef(isCompleted);
+  const buildPhaseRef = useRef(buildPhase);
+  const circleAnimTweenRef = useRef<gsap.core.Tween | null>(null);
 
   isCompletedRef.current = isCompleted;
+  buildPhaseRef.current = buildPhase;
 
   // Theme sync effect (document class & Sam's cursor color)
   useEffect(() => {
@@ -394,9 +450,129 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     });
   }, []);
 
+  // Spread animation: expands from circle outward to spread targets across the webpage
+  const triggerSpread = useCallback(() => {
+    if (buildPhaseRef.current !== 'circle') return;
+    setBuildPhase('spreading');
+    buildPhaseRef.current = 'spreading';
+
+    const startStates = cursorsRef.current.map((c) => ({
+      x: c.x,
+      y: c.y,
+      rot: c.rotation ?? 0,
+    }));
+
+    const w = typeof window !== 'undefined' ? window.innerWidth : 1200;
+    const h = typeof window !== 'undefined' ? window.innerHeight : 800;
+
+    const spreadTargets = [
+      { x: Math.max(90, w * 0.14), y: Math.max(80, h * 0.12), action: 'ready' },       // Aria (top-left)
+      { x: Math.min(w - 120, w * 0.86), y: Math.max(80, h * 0.12), action: 'ready' },  // Dev (top-right)
+      { x: Math.min(w - 100, w * 0.82), y: Math.min(h * 0.48, h - 160), action: 'ready' }, // Maya (mid-right)
+      { x: Math.max(90, w * 0.16), y: Math.min(h * 0.45, h - 160), action: 'ready' },     // Kai (mid-left)
+      { x: w * 0.5, y: Math.min(h * 0.65, h - 120), action: 'ready' },                    // Sam (lower-mid)
+    ];
+
+    cursorsRef.current.forEach((cursor, i) => {
+      cursor.actionText = spreadTargets[i].action;
+    });
+
+    const spreadAnim = { p: 0 };
+    const spreadTween = gsap.to(spreadAnim, {
+      p: 1,
+      duration: 0.95,
+      ease: 'power3.out',
+      onUpdate: () => {
+        cursorsRef.current.forEach((cursor, i) => {
+          const start = startStates[i];
+          const target = spreadTargets[i];
+          cursor.x = start.x + (target.x - start.x) * spreadAnim.p;
+          cursor.y = start.y + (target.y - start.y) * spreadAnim.p;
+          cursor.rotation = start.rot * (1 - spreadAnim.p);
+        });
+        setRenderTrigger((n) => n + 1);
+      },
+      onComplete: () => {
+        cursorsRef.current.forEach((cursor) => {
+          cursor.rotation = 0;
+          cursor.actionText = undefined;
+          cursor.busy = false;
+        });
+        setBuildPhase('building');
+        buildPhaseRef.current = 'building';
+        setRenderTrigger((n) => n + 1);
+      },
+    });
+
+    circleAnimTweenRef.current = spreadTween;
+  }, []);
+
+  // Circle Huddle Phase: Keep arrows in revolving circle at starting of webpage
+  useEffect(() => {
+    if (isCompleted || buildPhase !== 'circle') return;
+
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const r = Math.min(95, Math.max(65, window.innerWidth * 0.16));
+    setCircleCenter({ x: cx, y: cy });
+    setCircleRadius(r);
+
+    cursorsRef.current.forEach((cursor, i) => {
+      const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+      cursor.x = cx + r * Math.cos(angle);
+      cursor.y = cy + r * Math.sin(angle);
+      cursor.rotation = (angle * 180) / Math.PI - 45;
+      cursor.actionText = 'syncing...';
+      cursor.busy = false;
+      cursor.activeFrame = null;
+    });
+    setRenderTrigger((n) => n + 1);
+
+    const animState = { angle: 0 };
+    const circleTween = gsap.to(animState, {
+      angle: Math.PI * 2,
+      duration: 2.2,
+      ease: 'power1.inOut',
+      onUpdate: () => {
+        const curCx = window.innerWidth / 2;
+        const curCy = window.innerHeight / 2;
+        const curR = Math.min(95, Math.max(65, window.innerWidth * 0.16));
+        setCircleCenter({ x: curCx, y: curCy });
+        setCircleRadius(curR);
+
+        cursorsRef.current.forEach((cursor, i) => {
+          const a = (i * 2 * Math.PI) / 5 - Math.PI / 2 + animState.angle;
+          cursor.x = curCx + curR * Math.cos(a);
+          cursor.y = curCy + curR * Math.sin(a);
+          cursor.rotation = (a * 180) / Math.PI - 45;
+        });
+        setRenderTrigger((n) => n + 1);
+      },
+      onComplete: () => {
+        triggerSpread();
+      },
+    });
+
+    circleAnimTweenRef.current = circleTween;
+
+    // Early trigger spread if user starts scrolling
+    const handleScrollEarly = () => {
+      if (window.scrollY > 40 && buildPhaseRef.current === 'circle') {
+        circleTween.kill();
+        triggerSpread();
+      }
+    };
+    window.addEventListener('scroll', handleScrollEarly, { passive: true });
+
+    return () => {
+      circleTween.kill();
+      window.removeEventListener('scroll', handleScrollEarly);
+    };
+  }, [buildPhase, isCompleted, triggerSpread]);
+
   // Scheduler Loop: Assigns free cursors to queued elements (up to 3 parallel builds with smooth pacing)
   useEffect(() => {
-    if (isCompleted) return;
+    if (isCompleted || buildPhase === 'circle' || buildPhase === 'spreading') return;
 
     const interval = setInterval(() => {
       if (queueRef.current.length === 0) return;
@@ -418,11 +594,11 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     }, 160);
 
     return () => clearInterval(interval);
-  }, [executeBuild, isCompleted]);
+  }, [executeBuild, isCompleted, buildPhase]);
 
   // Idle Cursor gentle ambient drift
   useEffect(() => {
-    if (isCompleted) return;
+    if (isCompleted || buildPhase === 'circle' || buildPhase === 'spreading') return;
 
     const driftInterval = setInterval(() => {
       cursorsRef.current.forEach((cursor) => {
@@ -537,7 +713,13 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   // Skip build function (shortcut Escape or button)
   const skipBuild = useCallback(() => {
+    if (circleAnimTweenRef.current) {
+      circleAnimTweenRef.current.kill();
+    }
+    gsap.killTweensOf(cursorsRef.current);
     setIsCompleted(true);
+    setBuildPhase('completed');
+    buildPhaseRef.current = 'completed';
     try {
       sessionStorage.setItem(SESSION_KEY, 'true');
     } catch {
@@ -553,6 +735,7 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       c.busy = false;
       c.activeFrame = null;
       c.actionText = undefined;
+      c.rotation = 0;
     });
     setRenderTrigger((n) => n + 1);
   }, []);
@@ -564,6 +747,11 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     } catch {
       // ignore
     }
+    if (circleAnimTweenRef.current) {
+      circleAnimTweenRef.current.kill();
+    }
+    gsap.killTweensOf(cursorsRef.current);
+
     setIsCompleted(false);
     builtElementsRef.current.clear();
     activeBuildsRef.current.clear();
@@ -580,11 +768,29 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     window.scrollTo({ top: 0, behavior: 'smooth' });
     setBuiltCount(0);
 
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const r = Math.min(95, Math.max(65, window.innerWidth * 0.16));
+    setCircleCenter({ x: cx, y: cy });
+    setCircleRadius(r);
+
+    cursorsRef.current.forEach((cursor, i) => {
+      const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+      cursor.x = cx + r * Math.cos(angle);
+      cursor.y = cy + r * Math.sin(angle);
+      cursor.busy = false;
+      cursor.activeFrame = null;
+      cursor.actionText = 'syncing...';
+      cursor.rotation = (angle * 180) / Math.PI - 45;
+    });
+
     const allElements = Array.from(document.querySelectorAll<HTMLElement>('[data-build]'));
     allElements.forEach((el) => {
       observerRef.current?.observe(el);
     });
 
+    setBuildPhase('circle');
+    buildPhaseRef.current = 'circle';
     setRenderTrigger((n) => n + 1);
   }, []);
 
@@ -732,6 +938,9 @@ export const LiveBuildProvider: React.FC<{ children: React.ReactNode }> = ({ chi
         theme,
         toggleTheme,
         themeRipple,
+        buildPhase,
+        circleCenter,
+        circleRadius,
       }}
     >
       {children}

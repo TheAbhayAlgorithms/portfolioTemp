@@ -14,6 +14,9 @@ export const BuildLayer: React.FC = () => {
     cursors,
     snapGuides,
     visitorHoverBox,
+    buildPhase,
+    circleCenter,
+    circleRadius,
   } = useLiveBuild();
 
   // Real visitor cursor position
@@ -181,6 +184,70 @@ export const BuildLayer: React.FC = () => {
         )}
       </AnimatePresence>
 
+      {/* 4.5. Circle Huddle Indicator at Webpage Start */}
+      <AnimatePresence>
+        {(buildPhase === 'circle' || buildPhase === 'spreading') && !isCompleted && (
+          <motion.div
+            key="circle-huddle-indicator"
+            initial={{ opacity: 0, scale: 0.85 }}
+            animate={{
+              opacity: buildPhase === 'spreading' ? 0 : 1,
+              scale: buildPhase === 'spreading' ? 1.4 : 1,
+            }}
+            exit={{ opacity: 0, scale: 1.5 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="fixed pointer-events-none z-30 flex items-center justify-center"
+            style={{
+              left: circleCenter.x,
+              top: circleCenter.y,
+              transform: 'translate(-50%, -50%)',
+            }}
+          >
+            {/* Dashed Orbit Ring */}
+            <svg
+              className="absolute -translate-x-1/2 -translate-y-1/2 overflow-visible pointer-events-none"
+              style={{
+                width: circleRadius * 2,
+                height: circleRadius * 2,
+                left: '50%',
+                top: '50%',
+              }}
+            >
+              <circle
+                cx={circleRadius}
+                cy={circleRadius}
+                r={circleRadius}
+                fill="none"
+                stroke="rgba(255, 255, 255, 0.22)"
+                strokeWidth="1.5"
+                strokeDasharray="5 7"
+              />
+              <circle
+                cx={circleRadius}
+                cy={circleRadius}
+                r={circleRadius * 0.44}
+                fill="rgba(225, 29, 46, 0.05)"
+                stroke="rgba(225, 29, 46, 0.4)"
+                strokeWidth="1"
+              />
+            </svg>
+
+            {/* Center Label Pill */}
+            <div className="flex flex-col items-center justify-center text-center select-none relative z-10">
+              <div className="flex items-center gap-1.5 px-3 py-1 bg-[#121214]/90 border border-white/20 rounded-full backdrop-blur-md shadow-[0_8px_30px_rgba(0,0,0,0.9)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#E11D2E] animate-ping" />
+                <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-200 font-bold">
+                  Live Canvas Sync
+                </span>
+              </div>
+              <span className="font-mono text-[9px] text-zinc-400 mt-1 uppercase tracking-widest font-medium">
+                5 Editors In Huddle
+              </span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* 5. The 5 Ghost Cursors: Aria, Dev, Maya, Kai, Sam */}
       {!isCompleted && cursors.map((c) => (
         <div
@@ -195,7 +262,14 @@ export const BuildLayer: React.FC = () => {
         >
           <div className="relative">
             {/* SVG Arrow */}
-            <div className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+            <div
+              className="drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+              style={{
+                transform: `rotate(${c.rotation || 0}deg)`,
+                transformOrigin: '2.75px 2.75px',
+                transition: 'transform 0.1s ease-out',
+              }}
+            >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M3 3L10.07 19.97L12.58 12.58L19.97 10.07L3 3Z"
@@ -317,18 +391,28 @@ export const BuildLayer: React.FC = () => {
       </aside>
 
       {/* 8. Bottom Build Progress Pill + Skip Button */}
-      {!isCompleted && isBuilding && (
+      {!isCompleted && (
         <div className="fixed bottom-20 left-1/2 -translate-x-1/2 flex items-center gap-4 z-50 bg-[#121214]/95 backdrop-blur-xl border border-white/10 px-5 py-2.5 rounded-full shadow-[0_15px_40px_rgba(0,0,0,0.85)]">
           <div className="flex items-center gap-3 font-mono text-xs text-white font-semibold whitespace-nowrap">
             <span className="w-2 h-2 rounded-full bg-[#E11D2E] animate-ping" />
-            <span>Building… {remaining} elements remaining</span>
-            <span className="text-[#FF2D3F] font-bold">{progressPercent}%</span>
+            <span>
+              {buildPhase === 'circle'
+                ? 'Syncing 5 editors in huddle…'
+                : buildPhase === 'spreading'
+                ? 'Editors spreading to layout…'
+                : `Building… ${remaining} elements remaining`}
+            </span>
+            <span className="text-[#FF2D3F] font-bold">
+              {buildPhase === 'circle' || buildPhase === 'spreading' ? '0%' : `${progressPercent}%`}
+            </span>
           </div>
 
           <div className="w-24 sm:w-36 h-[3px] bg-white/10 rounded-full overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-[#E11D2E] via-[#FF2D3F] to-[#00E5FF] transition-all duration-300"
-              style={{ width: `${progressPercent}%` }}
+              style={{
+                width: buildPhase === 'circle' || buildPhase === 'spreading' ? '8%' : `${progressPercent}%`,
+              }}
             />
           </div>
 
